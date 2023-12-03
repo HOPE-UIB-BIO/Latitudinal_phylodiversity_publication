@@ -1,0 +1,526 @@
+taxon_name,level_1,level_3_phylo_div,ecological_group,gymnosperm
+abies,Abies,Pinaceae,TRSH,TRUE
+abies_sibirica,Abies,Pinaceae,TRSH,TRUE
+acer,Acer,Sapindaceae,TRSH,FALSE
+aconitum,Ranunculaceae,Ranunculaceae,UPHE,FALSE
+actaea,Ranunculaceae,Ranunculaceae,UPHE,FALSE
+alchemilla,Alchemilla,Rosaceae,UPHE,FALSE
+algae,delete,delete,ALGA,delete
+alisma,delete,delete,AQVP,delete
+alisma_plantago_minus_aquatica,delete,delete,AQVP,delete
+alismataceae,delete,delete,AQVP,delete
+allium,Liliaceae,Amaryllidaceae,UPHE,FALSE
+aln_type_1,Alnus undifferentiated,Betulaceae,TRSH,FALSE
+aln_type_2,Alnus undifferentiated,Betulaceae,TRSH,FALSE
+alnus,Alnus undifferentiated,Betulaceae,TRSH,FALSE
+alnus_fruticosa,"Alnus, shrub",Betulaceae,TRSH,FALSE
+alnus_glutinosa,"Alnus, tree",Betulaceae,TRSH,FALSE
+alnus_hirsuta,"Alnus, tree",Betulaceae,TRSH,FALSE
+alnus_hirsuta_type,"Alnus, tree",Betulaceae,TRSH,FALSE
+alnus_incana,"Alnus, tree",Betulaceae,TRSH,FALSE
+alnus_shrub,"Alnus, shrub",Betulaceae,TRSH,FALSE
+alnus_subg_alnobetula,Alnus undifferentiated,Betulaceae,TRSH,FALSE
+alnus_tree,"Alnus, tree",Betulaceae,TRSH,FALSE
+alnus_undiff,Alnus undifferentiated,Betulaceae,TRSH,FALSE
+alnus_undifferentiated,Alnus undifferentiated,Betulaceae,TRSH,FALSE
+alnus_viridis,"Alnus, shrub",Betulaceae,TRSH,FALSE
+alnus_viridis_ssp_fruticosa,"Alnus, shrub",Betulaceae,TRSH,FALSE
+alnus_viridis_subsp_fruticosa,"Alnus, shrub",Betulaceae,TRSH,FALSE
+alnus_viridis_subsp_fruticosa_type,"Alnus, shrub",Betulaceae,TRSH,FALSE
+amaranthaceae,Amaranthaceae/Chenopodiaceae,Amaranthaceae,UPHE,FALSE
+ambrosia,Ambrosia/Xanthium,Asteraceae,UPHE,FALSE
+andromeda,Ericaceae,Ericaceae,TRSH,FALSE
+androsace,Primulaceae,Primulaceae,UPHE,FALSE
+androsaceae,Primulaceae,Primulaceae,UPHE,FALSE
+anemone,Ranunculaceae,Ranunculaceae,UPHE,FALSE
+anemone_sect_hepatica,Ranunculaceae,Ranunculaceae,UPHE,FALSE
+anemone_sect_pulsatilla_type,Ranunculaceae,Ranunculaceae,UPHE,FALSE
+angelica_sylvestris,Angelica sylvestris,Apiaceae,UPHE,FALSE
+angiospermae_undiff_herbs,delete,delete,UPHE,delete
+anthemis,Asteraceae Asteroideae,Asteraceae,UPHE,FALSE
+anthemis_type,Asteraceae Asteroideae,Asteraceae,UPHE,FALSE
+anthoceros,delete,delete,UPBR,delete
+apiaceae,Apiaceae,Apiaceae,UPHE,FALSE
+aquifoliaceae,Aquifoliaceae,Aquifoliaceae,TRSH,FALSE
+aquilegia_undiff,Ranunculaceae,Ranunculaceae,UPHE,FALSE
+araliaceae,Araliaceae,Araliaceae,UPHE,FALSE
+arctostaphylos,Ericaceae,Ericaceae,TRSH,FALSE
+arenaria_type,Caryophyllaceae,Caryophyllaceae,UPHE,FALSE
+artemisia,Artemisia,Asteraceae,UPHE,FALSE
+aster,Asteraceae Asteroideae,Asteraceae,UPHE,FALSE
+aster_type,Asteraceae Asteroideae,Asteraceae,UPHE,FALSE
+asteraceae,Asteraceae undifferentiated,Asteraceae,UPHE,FALSE
+asteraceae_asteroideae,Asteraceae Asteroideae,Asteraceae,UPHE,FALSE
+asteraceae_cichorioideae,Asteraceae Cichorioideae,Asteraceae,UPHE,FALSE
+asteraceae_undiff,Asteraceae undifferentiated,Asteraceae,UPHE,FALSE
+asteroideae,Asteraceae Asteroideae,Asteraceae,UPHE,FALSE
+asteroideae_undiff,Asteraceae Asteroideae,Asteraceae,UPHE,FALSE
+astragalus_type,"Fabaceae, shrub",Fabaceae,UPHE,FALSE
+athemis,Asteraceae Asteroideae,Asteraceae,UPHE,FALSE
+balsaminaceae,Balsaminaceae,Balsaminaceae,UPHE,FALSE
+bergenia_crassifolia,Saxifraga undifferentiated,Saxifragaceae,UPHE,FALSE
+betaea_type_1,Betula undifferentiated,Betulaceae,TRSH,FALSE
+betaea_type_2,Betula undifferentiated,Betulaceae,TRSH,FALSE
+betaea_type_3,Betula undifferentiated,Betulaceae,TRSH,FALSE
+betula,Betula undifferentiated,Betulaceae,TRSH,FALSE
+betula_cf_b_fruticosa,"Betula, shrub",Betulaceae,TRSH,FALSE
+betula_cf_b_nana,"Betula, shrub",Betulaceae,TRSH,FALSE
+betula_cf_b_pendula,"Betula, tree",Betulaceae,TRSH,FALSE
+betula_costata,"Betula, tree",Betulaceae,TRSH,FALSE
+betula_dahurica,"Betula, tree",Betulaceae,TRSH,FALSE
+betula_ermanii,"Betula, tree",Betulaceae,TRSH,FALSE
+betula_fruticosa,"Betula, shrub",Betulaceae,TRSH,FALSE
+betula_humilis,"Betula, shrub",Betulaceae,TRSH,FALSE
+betula_nana,"Betula, shrub",Betulaceae,TRSH,FALSE
+betula_nana_subsp_exilis,"Betula, shrub",Betulaceae,TRSH,FALSE
+betula_nana_type,"Betula, shrub",Betulaceae,TRSH,FALSE
+betula_pendula,"Betula, tree",Betulaceae,TRSH,FALSE
+betula_pendula_subsp_mandshurica,"Betula, tree",Betulaceae,TRSH,FALSE
+betula_pubescens,"Betula, tree",Betulaceae,TRSH,FALSE
+betula_pubescens_type,"Betula, tree",Betulaceae,TRSH,FALSE
+betula_pubescens_var_pumila,"Betula, tree",Betulaceae,TRSH,FALSE
+betula_schmidtii,"Betula, tree",Betulaceae,TRSH,FALSE
+betula_sect_albae,"Betula, tree",Betulaceae,TRSH,FALSE
+betula_sect_apterocaryon,"Betula, shrub",Betulaceae,TRSH,FALSE
+betula_sect_betula,"Betula, tree",Betulaceae,TRSH,FALSE
+betula_sect_betula_type,"Betula, tree",Betulaceae,TRSH,FALSE
+betula_sect_costatae,"Betula, tree",Betulaceae,TRSH,FALSE
+betula_sect_nanae_fruticosae,"Betula, shrub",Betulaceae,TRSH,FALSE
+betula_shrub,"Betula, shrub",Betulaceae,TRSH,FALSE
+betula_tree,"Betula, tree",Betulaceae,TRSH,FALSE
+betula_undiff,Betula undifferentiated,Betulaceae,TRSH,FALSE
+betula_undifferentiated,Betula undifferentiated,Betulaceae,TRSH,FALSE
+betulaceae_undiff,Betula undifferentiated,Betulaceae,TRSH,FALSE
+bistorta,Bistorta,Polygonaceae,UPHE,FALSE
+bistorta_officinalis,Bistorta,Polygonaceae,UPHE,FALSE
+bistorta_officinalis_type,Bistorta,Polygonaceae,UPHE,FALSE
+bistorta_vivipara,Bistorta,Polygonaceae,UPHE,FALSE
+boraginaceae,Boraginaceae,Boraginaceae,UPHE,FALSE
+botrychium,delete,delete,VACR,delete
+botrychium_lunaria,delete,delete,VACR,delete
+brassicaceae,Brassicaceae,Brassicaceae,UPHE,FALSE
+brassicaceae_undiff,Brassicaceae,Brassicaceae,UPHE,FALSE
+bryales,delete,delete,UPBR,delete
+bryales_undiff,delete,delete,UPBR,delete
+bupleurum,Apiaceae,Apiaceae,UPHE,FALSE
+calluna_vulgaris,Calluna vulgaris,Ericaceae,TRSH,FALSE
+caltha_type,Caltha-type,Ranunculaceae,UPHE,FALSE
+campanula,Campanulaceae,Campanulaceae,UPHE,FALSE
+campanula_type,Campanulaceae,Campanulaceae,UPHE,FALSE
+campanulaceae,Campanulaceae,Campanulaceae,UPHE,FALSE
+cannabis,Cannabis/Humulus,Cannabaceae,UPHE,FALSE
+caprifoliaceae,Caprifoliaceae,Caprifoliaceae,TRSH,FALSE
+caprifoliaceae_sensu_lato,Caprifoliaceae,Caprifoliaceae,TRSH,FALSE
+caprifoliaceae_subf_dipsacoideae,Knautia-type,Caprifoliaceae,UPHE,FALSE
+caprifoliaceae_subf_valerianoideae,Valerianaceae,Caprifoliaceae,UPHE,FALSE
+cardamine,Brassicaceae,Brassicaceae,UPHE,FALSE
+carex_type,Cyperaceae,Cyperaceae,UPHE,FALSE
+carpinus,Carpinus,Betulaceae,TRSH,FALSE
+carpinus_betulus,Carpinus,Betulaceae,TRSH,FALSE
+carya,Carya,Juglandaceae,TRSH,FALSE
+carya_type,Carya,Juglandaceae,TRSH,FALSE
+caryophyllaceae,Caryophyllaceae,Caryophyllaceae,UPHE,FALSE
+caryophyllaceae_undiff,Caryophyllaceae,Caryophyllaceae,UPHE,FALSE
+cassiope,Ericaceae,Ericaceae,TRSH,FALSE
+castanea,Castanea,Fagaceae,TRSH,FALSE
+cedrus,Cedrus,Pinaceae,TRSH,TRUE
+celastraceae,Celastraceae,Celastraceae,TRSH,FALSE
+celtis,Celtis,Cannabaceae,TRSH,FALSE
+centaurea,Centaurea undiffrentiated,Asteraceae,UPHE,FALSE
+centaurea_cyanus,Centaurea cyanus-type,Asteraceae,UPHE,FALSE
+centaurea_nigra_type,Centaurea undiffrentiated,Asteraceae,UPHE,FALSE
+centaurea_scabiosa,Centaurea undiffrentiated,Asteraceae,UPHE,FALSE
+centaurea_scabiosa_type,Centaurea undiffrentiated,Asteraceae,UPHE,FALSE
+centaurea_undiff,Centaurea undiffrentiated,Asteraceae,UPHE,FALSE
+ceratophyllum,delete,delete,AQVP,delete
+cerealia,Cerealia,Poaceae,UPHE,FALSE
+chenopodiaceae,Amaranthaceae/Chenopodiaceae,Amaranthaceae,UPHE,FALSE
+chenopodiaceae_amaranthacea,Amaranthaceae/Chenopodiaceae,Amaranthaceae,UPHE,FALSE
+chenopodium,Amaranthaceae/Chenopodiaceae,Amaranthaceae,UPHE,FALSE
+chenopodium_album,Amaranthaceae/Chenopodiaceae,Amaranthaceae,UPHE,FALSE
+chrysosplenium,Chrysosplenium,Saxifragaceae,UPHE,FALSE
+cichorioideae,Asteraceae Cichorioideae,Asteraceae,UPHE,FALSE
+cichorioideae_undiff,Asteraceae Cichorioideae,Asteraceae,UPHE,FALSE
+cirsium,Cirsium-type,Asteraceae,UPHE,FALSE
+cirsium_type,Cirsium-type,Asteraceae,UPHE,FALSE
+claytonia_acutifolia,Portulacaceae,Montiaceae,UPHE,FALSE
+clematis,Ranunculaceae,Ranunculaceae,UPHE,FALSE
+compositae_subf_cichorioideae,Asteraceae Cichorioideae,Asteraceae,UPHE,FALSE
+coniogramme,delete,delete,VACR,delete
+convolvulaceae,Convolvulaceae,Convolvulaceae,UPHE,FALSE
+convolvulus,Convolvulaceae,Convolvulaceae,UPHE,FALSE
+cornaceae,Cornaceae,Cornaceae,TRSH,FALSE
+cornus_mas,Cornaceae,Cornaceae,TRSH,FALSE
+cornus_suecica,Cornaceae,Cornaceae,TRSH,FALSE
+corydalis,Corydalis,Papaveraceae,UPHE,FALSE
+corylus,Corylus,Betulaceae,TRSH,FALSE
+corylus_avellana,Corylus,Betulaceae,TRSH,FALSE
+cotoneaster,Sorbus/Prunus,Rosaceae,TRSH,FALSE
+crassulaceae,Crassulaceae,Crassulaceae,UPHE,FALSE
+cruciferae,Brassicaceae,Brassicaceae,UPHE,FALSE
+cupressaceae,Cupressaceae,Cupressaceae,TRSH,TRUE
+cyperaceae,Cyperaceae,Cyperaceae,UPHE,FALSE
+cyperaceae_undiff,Cyperaceae,Cyperaceae,UPHE,FALSE
+dacrydium,Dacrydium,Podocarpaceae,TRSH,TRUE
+daphne,Daphne,Thymelaeaceae,TRSH,FALSE
+delphinium_elatum,Ranunculaceae,Ranunculaceae,UPHE,FALSE
+depth_bot,delete,delete,LABO,delete
+depth_top,delete,delete,LABO,delete
+diphasiastrum,delete,delete,VACR,delete
+diphasiastrum_alpinum,delete,delete,VACR,delete
+diphasiastrum_complanatum,delete,delete,VACR,delete
+diphasiastrum_tristachyum,delete,delete,VACR,delete
+diphasiastrum_type,delete,delete,VACR,delete
+dipsacaceae,Knautia-type,Caprifoliaceae,UPHE,FALSE
+draba,Brassicaceae,Brassicaceae,UPHE,FALSE
+drosera,Droseraceae,Droseraceae,AQVP,FALSE
+droseraceae,Droseraceae,Droseraceae,UPHE,FALSE
+dryas,Dryas,Rosaceae,UPHE,FALSE
+dryas_octopetala,Dryas,Rosaceae,UPHE,FALSE
+dryopteris,delete,delete,VACR,delete
+duschekia_fruticosa,"Alnus, shrub",Betulaceae,TRSH,FALSE
+echinops,Asteraceae Asteroideae,Asteraceae,UPHE,FALSE
+elaeagnus,Elaeagnus,Elaeagnaceae,TRSH,FALSE
+elymus_type,Cerealia,Poaceae,UPHE,FALSE
+empetrum,Empetrum,Ericaceae,TRSH,FALSE
+empetrum_nigrum,Empetrum,Ericaceae,TRSH,FALSE
+ephedra,Ephedra,Ephedraceae,TRSH,TRUE
+ephedra_distachya,Ephedra,Ephedraceae,TRSH,TRUE
+ephedra_distachya_plus_fragilis,Ephedra,Ephedraceae,TRSH,TRUE
+ephedra_distachya_type,Ephedra,Ephedraceae,TRSH,TRUE
+ephedra_fragilis,Ephedra,Ephedraceae,TRSH,TRUE
+ephedra_fragilis_type,Ephedra,Ephedraceae,TRSH,TRUE
+epilobium,Onagraceae,Onagraceae,UPHE,FALSE
+epilobium_type,Onagraceae,Onagraceae,UPHE,FALSE
+equisetum,delete,delete,VACR,delete
+ericaceae,Ericaceae,Ericaceae,TRSH,FALSE
+ericaceae_undiff,Ericaceae,Ericaceae,TRSH,FALSE
+ericales,Ericaceae,Ericaceae,TRSH,FALSE
+ericales_undiff,Ericaceae,Ericaceae,TRSH,FALSE
+euonymus,Celastraceae,Celastraceae,TRSH,FALSE
+euphorbia,Euphorbiaceae undifferentiated,Euphorbiaceae,UPHE,FALSE
+euphorbia_type,Euphorbiaceae undifferentiated,Euphorbiaceae,UPHE,FALSE
+euphorbiaceae_undifferentiated,Euphorbiaceae undifferentiated,Euphorbiaceae,UPHE,FALSE
+fabaceae,Fabaceae undifferentiated,Fabaceae,UPHE,FALSE
+fabaceae_herb,"Fabaceae, herb",Fabaceae,UPHE,FALSE
+fabaceae_shrub,"Fabaceae, shrub",Fabaceae,TRSH,FALSE
+fabaceae_undifferentiated,Fabaceae undifferentiated,Fabaceae,UPHE,FALSE
+fagopyrum,Fagopyrum,Polygonaceae,UPHE,FALSE
+fagus,Fagus,Fagaceae,TRSH,FALSE
+filipendula,Filipendula,Rosaceae,UPHE,FALSE
+filipendula_ulmaria,Filipendula,Rosaceae,UPHE,FALSE
+frangula_alnus,Frangula alnus,Rhamnaceae,TRSH,FALSE
+fraxinus,Fraxinus,Oleaceae,TRSH,FALSE
+fraxinus_excelsior,Fraxinus,Oleaceae,TRSH,FALSE
+galium,Rubiaceae,Rubiaceae,UPHE,FALSE
+galium_type,Rubiaceae,Rubiaceae,UPHE,FALSE
+gentiana,Gentianaceae,Gentianaceae,UPHE,FALSE
+gentiana_pneumonanthe_type,Gentianaceae,Gentianaceae,UPHE,FALSE
+gentianaceae,Gentianaceae,Gentianaceae,UPHE,FALSE
+gentianaceae_undiff,Gentianaceae,Gentianaceae,UPHE,FALSE
+gentianella_campestris_type,Gentianaceae,Gentianaceae,UPHE,FALSE
+geraniaceae,Geraniaceae,Geraniaceae,UPHE,FALSE
+geranium,Geraniaceae,Geraniaceae,UPHE,FALSE
+geum,Geum-type,Rosaceae,UPHE,FALSE
+geum_type,Geum-type,Rosaceae,UPHE,FALSE
+gramineae,Poaceae,Poaceae,UPHE,FALSE
+grossulariaceae,Grossulariaceae,Grossulariaceae,TRSH,FALSE
+hedysarum,"Fabaceae, herb",Fabaceae,UPHE,FALSE
+hedysarum_hedysaroides,"Fabaceae, herb",Fabaceae,UPHE,FALSE
+helianthemum,Helianthemum,Cistaceae,UPHE,FALSE
+heracleum,Apiaceae,Apiaceae,UPHE,FALSE
+hippophae,Hippophae,Elaeagnaceae,TRSH,FALSE
+hippophae_rhamnoides,Hippophae,Elaeagnaceae,TRSH,FALSE
+hippophae_rhamnoids,Hippophae,Elaeagnaceae,TRSH,FALSE
+hordeum,Cerealia,Poaceae,UPHE,FALSE
+humulus,Cannabis/Humulus,Cannabaceae,UPHE,FALSE
+humulus_cannabis,Cannabis/Humulus,Cannabaceae,UPHE,FALSE
+humulus_lupulus,Cannabis/Humulus,Cannabaceae,UPHE,FALSE
+huperzia,delete,delete,VACR,delete
+huperzia_selago,delete,delete,VACR,delete
+hydrocharitaceae,delete,delete,AQVP,delete
+ilex,Aquifoliaceae,Aquifoliaceae,TRSH,FALSE
+illecebrum_type,Caryophyllaceae,Caryophyllaceae,UPHE,FALSE
+indeterminable_undiff,delete,delete,UNID,delete
+iridaceae,Iridaceae,Iridaceae,UPHE,FALSE
+iris_germanica_type,Iridaceae,Iridaceae,UPHE,FALSE
+isoetes,delete,delete,VACR,delete
+juglans,Juglans,Juglandaceae,TRSH,FALSE
+juglans_mandshurica,Juglans,Juglandaceae,TRSH,FALSE
+juncaceae,Juncaceae,Juncaceae,UPHE,FALSE
+juniperus,Juniperus-type,Cupressaceae,TRSH,TRUE
+juniperus_pollen_nisp,Juniperus-type,Cupressaceae,TRSH,TRUE
+juniperus_stomate_nisp,delete,delete,TRSH,delete
+knautia,Knautia-type,Caprifoliaceae,UPHE,FALSE
+koenigia,Koenigia,Polygonaceae,UPHE,FALSE
+koenigia_islandica,Koenigia,Polygonaceae,UPHE,FALSE
+koenigia_sect_aconogonon,Koenigia,Polygonaceae,UPHE,FALSE
+labiatae,Lamiaceae,Lamiaceae,UPHE,FALSE
+lamiaceae,Lamiaceae,Lamiaceae,UPHE,FALSE
+larix,Larix,Pinaceae,TRSH,TRUE
+larix_gmelinii,Larix,Pinaceae,TRSH,TRUE
+larix_sibirica,Larix,Pinaceae,TRSH,TRUE
+larix_stomata,delete,delete,delete,delete
+larix_type,Larix,Pinaceae,TRSH,TRUE
+ledum,Ledum-type,Ericaceae,TRSH,FALSE
+lemna,delete,delete,AQVP,delete
+liliaceae,Liliaceae,Liliaceae,UPHE,FALSE
+lilium,Liliaceae,Liliaceae,UPHE,FALSE
+linaceae,Linaceae,Linaceae,UPHE,FALSE
+linnaea_borealis,Linnaea borealis,Caprifoliaceae,UPHE,FALSE
+linum,Linaceae,Linaceae,UPHE,FALSE
+listera_type,Oxyria-type,Polygonaceae,UPHE,FALSE
+lonicera,Lonicera-type,Caprifoliaceae,TRSH,FALSE
+lyc_other,delete,delete,VACR,delete
+lycopodiaceae_undiff,delete,delete,VACR,delete
+lycopodium,delete,delete,VACR,delete
+lycopodium_annotinum,delete,delete,VACR,delete
+lycopodium_annotinum_subsp_alpestre,delete,delete,VACR,delete
+lycopodium_clavatum,delete,delete,VACR,delete
+lycopodium_type,delete,delete,VACR,delete
+lysimachia,Primulaceae,Primulaceae,UPHE,FALSE
+lythraceae,Lythraceae,Lythraceae,UPHE,FALSE
+lythrum,Lythraceae,Lythraceae,UPHE,FALSE
+maianthemum_bifolium,Liliaceae,Asparagaceae,UPHE,FALSE
+malvaceae,Malvaceae,Malvaceae,UPHE,FALSE
+marchantiophyta,delete,delete,UPBR,delete
+marchantiophyta_undiff,delete,delete,UPBR,delete
+meesia,delete,delete,UPBR,delete
+menyanthes,delete,delete,AQVP,delete
+menyanthes_trifoliata,delete,delete,AQVP,delete
+mercurialis,Euphorbiaceae undifferentiated,Euphorbiaceae,UPHE,FALSE
+micranthes_stellaris_type,Saxifraga stellaris-type,Saxifragaceae,UPHE,FALSE
+myosotis,Boraginaceae,Boraginaceae,UPHE,FALSE
+myrica,Myrica,Myricaceae,TRSH,FALSE
+myricaria,Myricaria,Tamaricaceae,TRSH,FALSE
+myriophyllum,delete,delete,AQVP,delete
+myriophyllum_alterniflorum,delete,delete,AQVP,delete
+myriophyllum_spicatum,delete,delete,AQVP,delete
+nitraria,Nitraria,Nitrariaceae,TRSH,FALSE
+nuphar,delete,delete,AQVP,delete
+nymphaea,delete,delete,AQVP,delete
+nymphaea_alba,delete,delete,AQVP,delete
+nymphaea_candida,delete,delete,AQVP,delete
+nymphaea_undiff,delete,delete,AQVP,delete
+oenotheraceae,Onagraceae,Onagraceae,UPHE,FALSE
+oleaceae,Oleaceae undifferentiated,Oleaceae,TRSH,FALSE
+oleaceae_undiff,Oleaceae undifferentiated,Oleaceae,TRSH,FALSE
+oleaceae_undifferentiated,Oleaceae undifferentiated,Oleaceae,TRSH,FALSE
+onagraceae,Onagraceae,Onagraceae,UPHE,FALSE
+onagraceae_undiff,Onagraceae,Onagraceae,UPHE,FALSE
+ophioglossaceae,delete,delete,VACR,delete
+ophioglossum,delete,delete,VACR,delete
+ophioglossum_vulgatum,delete,delete,VACR,delete
+orchidaceae,Orchidaceae,Orchidaceae,UPHE,FALSE
+osmunda,delete,delete,VACR,delete
+osmundastrum_cinnamomeum,delete,delete,VACR,delete
+oxalidaceae,Oxalidaceae,Oxalidaceae,UPHE,FALSE
+oxyria_digyna,Rumex-type,Polygonaceae,UPHE,FALSE
+papaver,Papaveraceae,Papaveraceae,UPHE,FALSE
+papaver_argemone_type,Papaveraceae,Papaveraceae,UPHE,FALSE
+papaveraceae,Papaveraceae,Papaveraceae,UPHE,FALSE
+papilionaceae,Fabaceae undifferentiated,Fabaceae,UPHE,FALSE
+parnassia,Parnassia,Celastraceae,UPHE,FALSE
+parnassia_palustris,Parnassia,Celastraceae,UPHE,FALSE
+pediastrum,delete,delete,ALGA,delete
+pedicularis,Pedicularis,Orobanchaceae,UPHE,FALSE
+pedicularis_oederi_type,Pedicularis,Orobanchaceae,UPHE,FALSE
+persicaria,Persicaria,Polygonaceae,UPHE,FALSE
+persicaria_amphibia,delete,delete,AQVP,delete
+persicaria_lapathifolia_type,Persicaria,Polygonaceae,UPHE,FALSE
+phellodendron,Rutaceae,Rutaceae,TRSH,FALSE
+picea,Picea abies,Pinaceae,TRSH,TRUE
+picea_abies,Picea abies,Pinaceae,TRSH,TRUE
+picea_obovata,Picea abies,Pinaceae,TRSH,TRUE
+picea_pollen_nisp,Picea abies,Pinaceae,TRSH,TRUE
+picea_sect_eupicea,Picea abies,Pinaceae,TRSH,TRUE
+picea_sect_omorika,Picea abies,Pinaceae,TRSH,TRUE
+picea_stomate_nisp,delete,delete,TRSH,delete
+picea_undiff,Picea abies,Pinaceae,TRSH,TRUE
+pinaceae,Pinaceae undifferentiated,Pinaceae,TRSH,TRUE
+pinguicula,Pinguicula,Lentibulariaceae,UPHE,FALSE
+pinus,Pinus undifferentiated,Pinaceae,TRSH,TRUE
+pinus_koraiensis,Pinus subgen. Haploxylon,Pinaceae,TRSH,TRUE
+pinus_pumila,Pinus subgen. Haploxylon,Pinaceae,TRSH,TRUE
+pinus_pumila_type,Pinus subgen. Haploxylon,Pinaceae,TRSH,TRUE
+pinus_sibirica,Pinus subgen. Haploxylon,Pinaceae,TRSH,TRUE
+pinus_sibirica_type,Pinus subgen. Haploxylon,Pinaceae,TRSH,TRUE
+pinus_subg_pinus,Pinus subgen. Diploxylon,Pinaceae,TRSH,TRUE
+pinus_subg_strobus,Pinus subgen. Haploxylon,Pinaceae,TRSH,TRUE
+pinus_subg_strobus_undiff,Pinus subgen. Haploxylon,Pinaceae,TRSH,TRUE
+pinus_subgen_diploxylon,Pinus subgen. Diploxylon,Pinaceae,TRSH,TRUE
+pinus_subgen_haploxylon,Pinus subgen. Haploxylon,Pinaceae,TRSH,TRUE
+pinus_sylvestris,Pinus subgen. Diploxylon,Pinaceae,TRSH,TRUE
+pinus_sylvestris_type,Pinus subgen. Diploxylon,Pinaceae,TRSH,TRUE
+pinus_undiff,Pinus undifferentiated,Pinaceae,TRSH,TRUE
+pinus_undifferentiated,Pinus undifferentiated,Pinaceae,TRSH,TRUE
+plantae,delete,delete,PLNT,delete
+plantaginaceae,Plantago,Plantaginaceae,UPHE,FALSE
+plantago,Plantago,Plantaginaceae,UPHE,FALSE
+plantago_lanceolata,Plantago lanceolata,Plantaginaceae,UPHE,FALSE
+plantago_major,Plantago major,Plantaginaceae,UPHE,FALSE
+plantago_major_p_media,Plantago major,Plantaginaceae,UPHE,FALSE
+plantago_maritima_type,Plantago maritima-type,Plantaginaceae,UPHE,FALSE
+plantago_undiff,Plantago,Plantaginaceae,UPHE,FALSE
+plumbaginaceae,Plumbaginaceae,Plumbaginaceae,UPHE,FALSE
+poaceae,Poaceae,Poaceae,UPHE,FALSE
+poaceae_cerealia,Cerealia,Poaceae,UPHE,FALSE
+podocarpaceae,Podocarpaceae,Podocarpaceae,TRSH,TRUE
+polemoniaceae,Polemoniaceae,Polemoniaceae,UPHE,FALSE
+polemonium,Polemoniaceae,Polemoniaceae,UPHE,FALSE
+polemonium_caeruleum,Polemoniaceae,Polemoniaceae,UPHE,FALSE
+pollen,delete,delete,delete,delete
+pollen_indet_type_1,delete,delete,delete,delete
+pollen_indet_type_2,delete,delete,delete,delete
+polygala,Polygalaceae,Polygalaceae,UPHE,FALSE
+polygalaceae,Polygalaceae,Polygalaceae,UPHE,FALSE
+polygonaceae,Polygonaceae undifferentiated,Polygonaceae,UPHE,FALSE
+polygonaceae_undiff,Polygonaceae undifferentiated,Polygonaceae,UPHE,FALSE
+polygonatum,Liliaceae,Asparagaceae,UPHE,FALSE
+polygonum,Polygonum,Polygonaceae,UPHE,FALSE
+polygonum_amphibium,delete,delete,AQVP,delete
+polygonum_aviculare,Polygonum,Polygonaceae,UPHE,FALSE
+polygonum_aviculare_type,Polygonum,Polygonaceae,UPHE,FALSE
+polygonum_sect_polygonum,Polygonum,Polygonaceae,UPHE,FALSE
+polygonum_sensu_lato,Polygonum,Polygonaceae,UPHE,FALSE
+polypodiaceae,delete,delete,VACR,delete
+polypodiophyta_undiff,delete,delete,VACR,delete
+polypodium_vulgare,delete,delete,VACR,delete
+populus,Populus,Salicaceae,TRSH,FALSE
+portulacaceae,Portulacaceae,Portulacaceae,UPHE,FALSE
+potamogeton,delete,delete,AQVP,delete
+potentilla,Potentilla-type,Rosaceae,UPHE,FALSE
+potentilla_type,Potentilla-type,Rosaceae,UPHE,FALSE
+primula,Primulaceae,Primulaceae,UPHE,FALSE
+primulaceae,Primulaceae,Primulaceae,UPHE,FALSE
+prunus,Sorbus/Prunus,Rosaceae,TRSH,FALSE
+pteridium,delete,delete,VACR,delete
+pteridium_aquilinum,delete,delete,VACR,delete
+pterocarya,Pterocarya,Juglandaceae,TRSH,FALSE
+pyrola,Ericaceae,Ericaceae,UPHE,FALSE
+quercus,Quercus,Fagaceae,TRSH,FALSE
+quercus_deciduous,Quercus,Fagaceae,TRSH,FALSE
+quercus_dentata,Quercus,Fagaceae,TRSH,FALSE
+quercus_mongolica,Quercus,Fagaceae,TRSH,FALSE
+quercus_undifferentiated,Quercus,Fagaceae,TRSH,FALSE
+rannunculaceae,Ranunculaceae,Ranunculaceae,UPHE,FALSE
+ranunculaceae,Ranunculaceae,Ranunculaceae,UPHE,FALSE
+ranunculaceae_undiff,Ranunculaceae,Ranunculaceae,UPHE,FALSE
+ranunculus_acris,Ranunculus acris-type,Ranunculaceae,UPHE,FALSE
+ranunculus_acris_type,Ranunculus acris-type,Ranunculaceae,UPHE,FALSE
+ranunculus_flammula_type,Ranunculus acris-type,Ranunculaceae,UPHE,FALSE
+rhamnaceae,Rhamnaceae,Rhamnaceae,TRSH,FALSE
+rhamnus,Rhamnaceae,Rhamnaceae,TRSH,FALSE
+rhinanthus_type,Rhinanthus-type,Orobanchaceae,UPHE,FALSE
+rhododendron,Ledum-type,Ericaceae,TRSH,FALSE
+rhododendron_tomentosum,Ledum-type,Ericaceae,TRSH,FALSE
+ribes,Grossulariaceae,Grossulariaceae,TRSH,FALSE
+riccia,delete,delete,AQBR,delete
+rosa,Rosa-type,Rosaceae,TRSH,FALSE
+rosaceae,Rosaceae undifferentiated,Rosaceae,UPHE,FALSE
+rosaceae_subf_amygdaloideae,Sorbus/Prunus,Rosaceae,TRSH,FALSE
+rosaceae_undiff,Rosaceae undifferentiated,Rosaceae,UPHE,FALSE
+rubiaceae,Rubiaceae,Rubiaceae,TRSH,FALSE
+rubus_chamaemorus,Rubus chamaemorus,Rosaceae,TRSH,FALSE
+rubus_type,Rubus undiffrentiated,Rosaceae,TRSH,FALSE
+rumex,Rumex-type,Polygonaceae,UPHE,FALSE
+rumex_acetosa,Rumex-type,Polygonaceae,UPHE,FALSE
+rumex_acetosa_r_acetosella,Rumex-type,Polygonaceae,UPHE,FALSE
+rumex_acetosa_type,Rumex-type,Polygonaceae,UPHE,FALSE
+rumex_acetosella,Rumex-type,Polygonaceae,UPHE,FALSE
+rumex_conglomeratus_type,Rumex-type,Polygonaceae,UPHE,FALSE
+rumex_obtusifolius,Rumex-type,Polygonaceae,UPHE,FALSE
+rumex_obtusifolius_type,Rumex-type,Polygonaceae,UPHE,FALSE
+rumex_subg_acetosa_oxyria,Rumex-type,Polygonaceae,UPHE,FALSE
+rumex_undiff,Rumex-type,Polygonaceae,UPHE,FALSE
+rutaceae,Rutaceae,Rutaceae,TRSH,FALSE
+sagittaria,delete,delete,AQVP,delete
+salix,Salix,Salicaceae,TRSH,FALSE
+sambucus,Caprifoliaceae,Adoxaceae,TRSH,FALSE
+sample_id,sample.id,sample_id,LABO,FALSE
+sanguisorba,Sanguisorba,Rosaceae,UPHE,FALSE
+sanguisorba_officinalis,Sanguisorba,Rosaceae,UPHE,FALSE
+saussurea_type,Saussurea-type,Asteraceae,UPHE,FALSE
+saxifraga,Saxifraga undifferentiated,Saxifragaceae,UPHE,FALSE
+saxifraga_20,Saxifraga undifferentiated,Saxifragaceae,UPHE,FALSE
+saxifraga_53,Saxifraga undifferentiated,Saxifragaceae,UPHE,FALSE
+saxifraga_granulata_type,Saxifraga granulata-type,Saxifragaceae,UPHE,FALSE
+saxifraga_hirsuta,Saxifraga stellaris-type,Saxifragaceae,UPHE,FALSE
+saxifraga_hypnoides_type,Saxifraga granulata-type,Saxifragaceae,UPHE,FALSE
+saxifraga_oppositifolia,Saxifraga oppositifolia,Saxifragaceae,UPHE,FALSE
+saxifraga_oppositifolia_type,Saxifraga oppositifolia,Saxifragaceae,UPHE,FALSE
+saxifragaceae,Saxifraga undifferentiated,Saxifragaceae,UPHE,FALSE
+saxifragaceae_herb,Saxifraga undifferentiated,Saxifragaceae,UPHE,FALSE
+saxifragaceae_undifferentiated,Saxifraga undifferentiated,Saxifragaceae,UPHE,FALSE
+saxigraga_oppositifolia,Saxifraga oppositifolia,Saxifragaceae,UPHE,FALSE
+scorzonera_type,Asteraceae Cichorioideae,Asteraceae,UPHE,FALSE
+scrophularia_type,Scrophulariaceae undifferentiated,Scrophulariaceae,UPHE,FALSE
+scrophulariaceae,Scrophulariaceae undifferentiated,Scrophulariaceae,UPHE,FALSE
+scrophulariaceae_undiff,Scrophulariaceae undifferentiated,Scrophulariaceae,UPHE,FALSE
+scutellaria,Lamiaceae,Lamiaceae,UPHE,FALSE
+sedum,Crassulaceae,Crassulaceae,UPHE,FALSE
+sedum_type,Crassulaceae,Crassulaceae,UPHE,FALSE
+selaginella,delete,delete,VACR,delete
+selaginella_rupestris,delete,delete,VACR,delete
+selaginella_selaginoides,delete,delete,VACR,delete
+selaginella_undiff,delete,delete,VACR,delete
+serratula,Asteraceae Cichorioideae,Asteraceae,UPHE,FALSE
+serratula_type,Asteraceae Cichorioideae,Asteraceae,UPHE,FALSE
+silene,Caryophyllaceae,Caryophyllaceae,UPHE,FALSE
+silene_dioica_type,Caryophyllaceae,Caryophyllaceae,UPHE,FALSE
+silene_suecica_type,Caryophyllaceae,Caryophyllaceae,UPHE,FALSE
+solanaceae,Solanaceae,Solanaceae,UPHE,FALSE
+solanum_dulcamara_type,Solanaceae,Solanaceae,UPHE,FALSE
+sorbus,Sorbus/Prunus,Rosaceae,TRSH,FALSE
+sparganium,delete,delete,AQVP,delete
+sparganium_type,delete,delete,AQVP,delete
+spergula,Spergula-type,Caryophyllaceae,UPHE,FALSE
+spergula_type,Spergula-type,Caryophyllaceae,UPHE,FALSE
+spermatophyta,delete,delete,SEED,delete
+spermatophyta_undiff_aquatics,delete,delete,AQVP,delete
+spermatophyta_undiff_trees,delete,delete,TRSH,delete
+sphagnales,delete,delete,AQBR,delete
+sphagnum,delete,delete,AQBR,delete
+spiraea,Filipendula,Rosaceae,TRSH,FALSE
+stachys_type,Lamiaceae,Lamiaceae,UPHE,FALSE
+stipa,Poaceae,Poaceae,UPHE,FALSE
+stratiotes,delete,delete,AQVP,delete
+swertia,Gentianaceae,Gentianaceae,UPHE,FALSE
+syringa,Oleaceae undifferentiated,Oleaceae,TRSH,FALSE
+taraxacum,Asteraceae Cichorioideae,Asteraceae,UPHE,FALSE
+thalictrum,Thalictrum-type,Ranunculaceae,UPHE,FALSE
+thelypteris_palustris,delete,delete,VACR,delete
+thymus_type,Lamiaceae,Lamiaceae,UPHE,FALSE
+tilia,Tilia,Malvaceae,TRSH,FALSE
+tilia_cordata,Tilia,Malvaceae,TRSH,FALSE
+tilletia_sphagni,delete,delete,FUNG,delete
+tofieldia,Liliaceae,Tofieldiaceae,UPHE,FALSE
+trapa_natans,delete,delete,AQVP,delete
+trientalis_europaea,Primulaceae,Primulaceae,UPHE,FALSE
+trifolium_type,"Fabaceae, herb",Fabaceae,UPHE,FALSE
+triticum_type,Cerealia,Poaceae,UPHE,FALSE
+trollius,Trollius,Ranunculaceae,UPHE,FALSE
+tsuga,Tsuga,Pinaceae,TRSH,TRUE
+typha,delete,delete,AQVP,delete
+typha_latifolia,delete,delete,AQVP,delete
+typha_latifolia_type,delete,delete,AQVP,delete
+typha_sparganium_undiff,delete,delete,AQVP,delete
+ulmus,Ulmus,Ulmaceae,TRSH,FALSE
+umbelliferae,Apiaceae,Apiaceae,UPHE,FALSE
+unknown,delete,delete,UNID,delete
+urtica,Urticaceae,Urticaceae,UPHE,FALSE
+urticaceae,Urticaceae,Urticaceae,UPHE,FALSE
+utricularia,delete,delete,AQVP,delete
+vaccinium,Ericaceae,Ericaceae,TRSH,FALSE
+vaccinium_type,Ericaceae,Ericaceae,TRSH,FALSE
+valeriana,Valerianaceae,Caprifoliaceae,UPHE,FALSE
+valerianaceae,Valerianaceae,Caprifoliaceae,UPHE,FALSE
+valerianoideae,Valerianaceae,Caprifoliaceae,UPHE,FALSE
+varia,delete,delete,UNID,delete
+veronica,Veronica-type,Plantaginaceae,UPHE,FALSE
+veronica_type,Veronica-type,Plantaginaceae,UPHE,FALSE
+viburnum,Caprifoliaceae,Adoxaceae,TRSH,FALSE
+viburnum_opulus,Caprifoliaceae,Adoxaceae,TRSH,FALSE
+violaceae,Violaceae,Violaceae,UPHE,FALSE
+viscum_album,Viscum album,Santalaceae,TRSH,FALSE
+xanthium_type,Ambrosia/Xanthium,Asteraceae,UPHE,FALSE
