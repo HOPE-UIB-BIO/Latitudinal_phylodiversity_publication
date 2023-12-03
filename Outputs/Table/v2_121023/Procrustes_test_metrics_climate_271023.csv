@@ -1,0 +1,7 @@
+Matrix_1 (PCA),Matrix_2 (PCA),Procrustes Sum of Squares (m12 squared),Correlation in a symmetric Procrustes rotation,Significance,Number of permutations,
+ses_MPD,temp_cold,0.8508,0.3863,0.001,999,***
+ses_MPD,prec_summer,0.6723,0.5725,0.001,999,***
+ses_MPD,prec_winter,0.9922,0.088,0.68,999,
+ses_MNTD,temp_cold,0.7148,0.534,0.001,999,***
+ses_MNTD,prec_summer,0.6121,0.6229,0.001,999,***
+ses_MNTD,prec_winter,0.9989,0.033,0.982,999,
