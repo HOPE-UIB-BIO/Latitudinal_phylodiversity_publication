@@ -1,7 +1,7 @@
 # Latitudinal gradients in the phylogenetic assembly of angiosperms in Asia during the Holocene
 
 ## Authors
-Kuber P Bhatta1*, Ondřej Mottl, Vivian A. Felde1, John-Arvid Grytnes, Triin Reitalu, Hilary H. Birks, H. John B. Birks, Ole R Vetaas
+Kuber P Bhatta*, Ondřej Mottl, Vivian A. Felde, John-Arvid Grytnes, Triin Reitalu, Hilary H. Birks, H. John B. Birks, Ole R Vetaas
 
 ### Corresponding author
 Kuber P. Bhatta (kuber.bhatta@uib.no)
