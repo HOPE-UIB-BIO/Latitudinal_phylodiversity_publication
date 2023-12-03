@@ -209,46 +209,10 @@ test_4 <-
   dplyr::filter(test == "FAIL") # 0
 
 #-------------------------------------------------#
-# Load full data to join additional information ----
-#-------------------------------------------------#
-asia_dat <- 
-  readr::read_rds(
-    "Inputs/Data/Data_processed_2022-08-30.rds"
-  ) %>% 
-  dplyr::select(
-    dataset_id,
-    sitename,
-    depositionalenvironment,
-    ecozone_koppen_5,
-    ecozone_koppen_15,
-    source_of_data,
-    data_publicity
-  )
-
-full_data <- 
-  dplyr::inner_join(
-    phylo_div,
-    asia_dat,
-    by = "dataset_id"
-  ) %>% 
-  dplyr::select(
-    dataset_id,
-    sitename,
-    depositionalenvironment,
-    lat,
-    long,
-    harmonisation_region,
-    ecozone_koppen_5,
-    ecozone_koppen_15,
-    raw_counts,
-    everything() 
-  )
-
-#-------------------------------------------------#
 # Save the data of all sites ----
 #-------------------------------------------------#
 readr::write_rds(
-  full_data, 
+  phylo_div, 
   file = "Inputs/Data/phylogenetic_diversity_estimated_121023.rds",
   compress = "gz"
   )
@@ -257,7 +221,7 @@ readr::write_rds(
 # Prepare the data ready for further analyses ----
 #-------------------------------------------------#
 filtered_dat <- 
-  full_data %>% 
+  phylo_div %>% 
   dplyr::filter(!phylogenetic_diversity == "NA") %>%
   dplyr::filter(!long < 75 & !long > 125) %>%
   dplyr::filter(!lat < 25 & !lat > 66) %>%  # 99 records

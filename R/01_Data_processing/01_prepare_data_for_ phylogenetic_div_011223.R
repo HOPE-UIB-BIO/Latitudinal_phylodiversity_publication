@@ -18,16 +18,8 @@ source("R/00_Config_file.R")
 # Filtered data for Asia [207 datasets], which was used in Asian synthesis
 asia_dat <-
   read_rds("Inputs/Data/Data_processed_2022-08-30.rds") %>%
-  dplyr::select(
-    dataset_id,
-    long,
-    lat,
-    harmonisation_region, 
-    raw_counts,
-    harmonised_counts = pollen_counts,
-    levels,
-    orig_pollen_percentage,
-    pollen_percentages
+  dplyr::rename(
+    harmonised_counts = pollen_counts
     ) %>% 
   dplyr::filter(
     harmonisation_region == "Asia_Main" |
@@ -125,92 +117,7 @@ dat_harmonised <-
                         tibble::as_tibble()
                       return(res)
                       }
-                    ),
-    harmonised_fam_spermatophytes =
-      purrr::pmap(
-        .l = list(
-          dataset_id, # ..1
-          harmonisation_region, # ..2
-          raw_counts # ..3
-        ),
-        .f = ~ {
-          harm_table <-
-            readr::read_csv(
-              paste(
-                "Inputs/Tables/Phylo_div_harmonisation/", 
-                ..2,
-                "_280923",
-                ".csv", 
-                sep = ""
-              )
-            )
-          message(
-            msg = paste0(
-              ..1,
-              ": ",
-              ..2,
-              ", ",
-              paste(
-                "Inputs/Tables/Phylo_div_harmonisation/", 
-                ..2,
-                "_280923",
-                ".csv",
-                sep = ""
-              ),
-              "\n"
-            )
-          )
-          # transform all taxa to numeric
-          col_names <- names(..3)
-          taxa_names <- col_names[!col_names %in% "sample_id"]
-          
-          suppressWarnings(dat <-
-                             ..3 %>%
-                             dplyr::mutate_at(
-                               taxa_names,
-                               as.numeric
-                             )
-                           )
-          res <- 
-            dat %>%
-            as.data.frame() %>%
-            dplyr::mutate(
-              dplyr::across(
-                where(is.numeric),
-                ~ tidyr::replace_na(., 0)
-                )
-              ) %>%
-            tidyr::gather(
-              key = taxon_name, 
-              value = counts,
-              -sample_id
-              ) %>%
-            dplyr::left_join(
-              harm_table, 
-              by = "taxon_name"
-            ) %>%
-            dplyr::filter(!level_3_phylo_div == "delete") %>%
-            dplyr::group_by(
-              sample_id,
-              level_3_phylo_div
-            ) %>%
-            dplyr::summarise(
-              .groups = "keep",
-              counts = sum(counts)
-            ) %>%
-            dplyr::rename(harmonised_counts = `level_3_phylo_div`) %>%
-            tidyr::spread(
-              harmonised_counts, 
-              counts
-            ) %>%
-            dplyr::ungroup() %>%
-            tibble::column_to_rownames("sample_id") %>%
-            dplyr::select_if(colSums(.) != 0) %>%
-            tibble::rownames_to_column("sample_id") %>%
-            tibble::as_tibble()
-          return(res)
-          }
-        )
+                    )
     )
 
 #-----------------------------------------------#
@@ -225,16 +132,6 @@ dat_harmonised_filtered <-
     harmonised_fam_angiosperms = purrr::map2(
       .x = harmonised_counts,
       .y = harmonised_fam_angiosperms,
-      .f = ~ .x %>% 
-        dplyr::select(sample_id) %>% 
-        inner_join(
-          .y,
-          by = "sample_id"
-        )
-      ),
-    harmonised_fam_spermatophytes = purrr::map2(
-      .x = harmonised_counts,
-      .y = harmonised_fam_spermatophytes,
       .f = ~ .x %>% 
         dplyr::select(sample_id) %>% 
         inner_join(
@@ -264,16 +161,6 @@ dat_harmonised_filtered <-
           tibble::rownames_to_column("sample_id") %>%
           tibble::as_tibble()
         ),
-    harmonised_fam_spermatophytes = 
-      purrr::map(
-        harmonised_fam_spermatophytes,
-        ~ .x[rowSums(.x > 0) > 2,] %>%
-    # Remove columns (taxa) with zero colsums        
-          tibble::column_to_rownames("sample_id") %>%
-          dplyr::select_if(colSums(.) != 0) %>%
-          tibble::rownames_to_column("sample_id") %>%
-          tibble::as_tibble()
-      )
     ) %>% 
   dplyr::filter(n_sample >= min_n_levels) %>%  #[config_criteria]
   dplyr::select(-n_sample)
@@ -326,40 +213,29 @@ dat_harmonised_filtered_1 <-
                  return(percentages)
                  }
                )
-             ),
-    harmonised_fam_spermatophyte_percentages = 
-      # Convert counts to percentages (no need to convert pre-existing percentages)    
-      ifelse(orig_pollen_percentage == TRUE, 
-             purrr::map(
-               .x = harmonised_fam_spermatophytes, 
-               ~ .x %>% 
-                 column_to_rownames("sample_id") %>% 
-                 round(., digits = 3) %>% 
-                 rownames_to_column("sample_id")
-             ),
-             
-             purrr::map(
-               .x = harmonised_fam_spermatophytes, 
-               .f = ~ {
-                 counts <- 
-                   .x %>% 
-                   column_to_rownames("sample_id")
-                 percentages <-
-                   ((counts/rowSums(counts)) * 100) %>%
-                   round(., digits = 3) %>% 
-                   rownames_to_column("sample_id")
-                 
-                 return(percentages)
-               }
              )
-            )
-        )
-  
+    ) %>% 
+  dplyr::select(
+    dataset_id,
+    sitename,
+    long,
+    lat,
+    depositionalenvironment,
+    harmonisation_region,
+    ecozone_koppen_5,
+    ecozone_koppen_15,
+    levels,
+    levels_filtered,
+    harmonised_fam_angiosperms,
+    harmonised_fam_angiosperms_percentages,
+    orig_pollen_percentage,
+    source_of_data
+  )
+        
 
 write_rds(dat_harmonised_filtered_1, 
           file = "Inputs/Data/data_processed_for_phylodiversity_estimation_101023.rds",
           compress = "gz")
 
- 
 
   
