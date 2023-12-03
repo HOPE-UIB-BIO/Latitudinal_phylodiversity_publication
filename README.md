@@ -26,9 +26,9 @@ Please note that users will not find raw pollen counts/percentage data (`Data_pr
 - `renv/`: This folder stores all the installed packages with the record of their versions.
 - `R/`: The R project consists of R scripts and functions as follows:
   - R/00_Config_file.R: This script (referred to as "Config file" from here on) is useful for setting up the preferences that are applied to the whole project. Here all settings (configurations) and criteria used throughout the project are predefined by the user before running all the R scripts in the project. In addition, it prepares the current session by loading the required packages and saving all settings throughout the project.
-  - R/functions/: This folder contains and specific R functions used in the project
-  - R/01_Data_processing/: This folder contains all R scripts used for data processing prior to main analyses. 
-  - R/02_Main_analyses/: This folder contains all R scripts used for the main analyses. Please note that implementation of some of the scripts maiy take substantial amount of time from hours to days. So, plese check individual script carefully before executing it. Reduce the number of randomisations and metric to be estimated, if required, while executing the script of estimation of phylogenetic relatedness, and reduce the number of 'k' while implementing the scripts of the generalised additive models.
+  - `R/functions/`: This folder contains and specific R functions used in the project
+  - `R/01_Data_processing/`: This folder contains all R scripts used for data processing prior to main analyses. 
+  - `R/02_Main_analyses/`: This folder contains all R scripts used for the main analyses. Please note that implementation of some of the scripts maiy take substantial amount of time from hours to days. So, plese check individual script carefully before executing it. Reduce the number of randomisations and metric to be estimated, if required, while executing the script of estimation of phylogenetic relatedness, and reduce the number of 'k' while implementing the scripts of the generalised additive models.
 
 ## How to use the repo?
 Once a user obtains the R project, there are several steps to be done before using it:
