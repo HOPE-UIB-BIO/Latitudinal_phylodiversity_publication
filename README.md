@@ -9,7 +9,7 @@ Kuber P. Bhatta (kuber.bhatta@uib.no)
 ### Project
 This project is a part of European Research Council (ERC) under the European Union’s Horizon 2020 Research and Innovation Programme (grant agreement no. 741413) HOPE Humans on Planet Earth – longterm impacts on biosphere dynamics awarded to HJBB.
 
-## Project description
+## Repo description
 This repository contains data and R codes for analysis of spatio-temporal patterns in phylogenetic relatedness of angiosperms in central Asia during the Holocene
 
 ## How to access the repo?
