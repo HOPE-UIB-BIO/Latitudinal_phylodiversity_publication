@@ -290,6 +290,7 @@ gam_curve_mpd <-
     y = "ses_MPD",
     colour = "Time (cal yr BP)"
     )
+
 gam_curve_mntd <- 
   plot_gam[[2]] + 
   ggplot2::labs(
@@ -399,6 +400,12 @@ gam_curve_mpd_temporal <-
         )
       )
     ) 
+gam_curve_mpd_temporal_rev_x <- 
+  gam_curve_mpd_temporal + 
+  ggplot2::scale_x_reverse(
+    limits = c(12000, 0),
+    breaks = seq(12000, 0, by = -2000)
+  ) 
 
 gam_curve_mntd_temporal <- 
   plot_gam_temporal[[2]] + 
@@ -411,6 +418,13 @@ gam_curve_mntd_temporal <-
       )
     ) 
 
+gam_curve_mntd_temporal_rev_x <- 
+  gam_curve_mntd_temporal + 
+  ggplot2::scale_x_reverse(
+    limits = c(12000, 0),
+    breaks = seq(12000, 0, by = -2000)
+  ) 
+
 # Merge all the figures into one
 final_fig_mpd <-
   ggpubr::ggarrange(
@@ -422,6 +436,17 @@ final_fig_mpd <-
     hjust = -0.4,
     vjust = 2.5
     )
+final_fig_mpd_rev_x <-
+  ggpubr::ggarrange(
+    gam_curve_mpd,
+    gam_curve_mpd_temporal_rev_x,
+    ncol = 1,
+    nrow = 2,
+    labels = c("(a)", "(b)"),
+    hjust = -0.4,
+    vjust = 2.5
+  )
+
 
 final_fig_mntd <-
  ggpubr::ggarrange(
@@ -434,6 +459,17 @@ final_fig_mntd <-
     vjust = 2.5
     )
 
+final_fig_mntd_rev_x <-
+  ggpubr::ggarrange(
+    gam_curve_mntd,
+    gam_curve_mntd_temporal_rev_x,
+    ncol = 1,
+    nrow = 2,
+    labels = c("(c)", "(d)"),
+    hjust = -0.4,
+    vjust = 2.5
+  )
+
 final_composite <- 
   ggpubr::ggarrange(
     final_fig_mpd,
@@ -441,6 +477,14 @@ final_composite <-
     ncol = 2,
     nrow = 1
     )
+
+final_composite_rev_x <- 
+  ggpubr::ggarrange(
+    final_fig_mpd_rev_x,
+    final_fig_mntd_rev_x,
+    ncol = 2,
+    nrow = 1
+  )
 
 ggplot2::ggsave(
   final_composite,
@@ -455,6 +499,20 @@ ggplot2::ggsave(
   dpi = 400,
   compression = "lzw"
   )
+
+ggplot2::ggsave(
+  final_composite_rev_x,
+  filename = paste(
+    "Outputs/Figure/v2_121023/",
+    "Holocene_wide_spatiotemporal_pattern_no_bam_rev_x_271023.tiff",
+    sep = ""
+  ),
+  height = 20,
+  width = 20,
+  units = "cm",
+  dpi = 400,
+  compression = "lzw"
+)
 
 #---------------------------------------------------#
 # 5.3 Plot figure with actual values (points in the background) ----
@@ -569,6 +627,8 @@ gam_curve_mpd <-
     y = "ses_MPD",
     colour = "Time (cal yr BP)"
   )
+
+
 gam_curve_mntd <- 
   plot_gam[[2]] + 
   labs(
@@ -695,6 +755,13 @@ gam_curve_mpd_temporal <-
       )
     )
   ) 
+gam_curve_mpd_temporal_rev_x <- 
+  gam_curve_mpd_temporal + 
+  ggplot2::scale_x_reverse(
+    limits = c(12000, 0),
+    breaks = seq(12000, 0, by = -2000)
+  ) 
+
 
 gam_curve_mntd_temporal <- 
   plot_gam_temporal[[2]] + 
@@ -706,12 +773,30 @@ gam_curve_mntd_temporal <-
       )
     )
   ) 
+gam_curve_mntd_temporal_rev_x <- 
+  gam_curve_mntd_temporal + 
+  ggplot2::scale_x_reverse(
+    limits = c(12000, 0),
+    breaks = seq(12000, 0, by = -2000)
+  ) 
+
 
 # Merge all the figures into one
 final_fig_mpd <-
   ggpubr::ggarrange(
     gam_curve_mpd,
     gam_curve_mpd_temporal,
+    ncol = 1,
+    nrow = 2,
+    labels = c("(a)", "(b)"),
+    hjust = -0.4,
+    vjust = 2.5
+  )
+
+final_fig_mpd_rev_x <-
+  ggpubr::ggarrange(
+    gam_curve_mpd,
+    gam_curve_mpd_temporal_rev_x,
     ncol = 1,
     nrow = 2,
     labels = c("(a)", "(b)"),
@@ -729,11 +814,29 @@ final_fig_mntd <-
     hjust = -0.4,
     vjust = 2.5
   )
+final_fig_mntd_rev_x <-
+  ggpubr::ggarrange(
+    gam_curve_mntd,
+    gam_curve_mntd_temporal_rev_x,
+    ncol = 1,
+    nrow = 2,
+    labels = c("(c)", "(d)"),
+    hjust = -0.4,
+    vjust = 2.5
+  )
 
 final_composite <- 
   ggpubr::ggarrange(
     final_fig_mpd,
     final_fig_mntd,
+    ncol = 2,
+    nrow = 1
+  )
+
+final_composite_rev_x <- 
+  ggpubr::ggarrange(
+    final_fig_mpd_rev_x,
+    final_fig_mntd_rev_x,
     ncol = 2,
     nrow = 1
   )
@@ -752,3 +855,16 @@ ggplot2::ggsave(
   compression = "lzw"
 )
 
+ggplot2::ggsave(
+  final_composite_rev_x,
+  filename = paste(
+    "Outputs/Figure/v2_121023/",
+    "Holocene_wide_spatiotemporal_pattern_271023_no_bam_suppl_rev_x.tiff",
+    sep = ""
+  ),
+  height = 20,
+  width = 20,
+  units = "cm",
+  dpi = 400,
+  compression = "lzw"
+)
