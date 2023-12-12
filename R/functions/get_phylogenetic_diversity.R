@@ -97,7 +97,7 @@ get_phylogenetic_diversity <-
     #  be weighted by species abundance? (default = FALSE).
     
     
-    # MNTD/NTI using ses.mntd() function in the 'picante' package
+    # MNTD using ses.mntd() function in the 'picante' package
     mntd_taxa_labels_abundance_wt <- 
       picante::ses.mntd(
         data_ordered,
