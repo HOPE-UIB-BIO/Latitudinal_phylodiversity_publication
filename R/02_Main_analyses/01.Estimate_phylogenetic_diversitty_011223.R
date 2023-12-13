@@ -158,37 +158,48 @@ readr::write_rds(
 #-------------------------------------------------#
 # Prepare the data ready for further analyses ----
 #-------------------------------------------------#
-get_combined_data <- function(.x, .y){
-  dat <- .x %>% 
+get_combined_data <- function(.x, 
+                              .y, 
+                              select_var = NULL
+                              ){
+  dat <- .x %>%
     dplyr::select(sample_id, age,upper, lower) %>%
     dplyr::left_join(
-      .y,
+      .y %>% dplyr::select(all_of(select_var)) ,
       by = "sample_id"
     ) 
   
   return(dat)
 }
 
-filtered_dat <- 
+data_filtered <- 
   phylo_div %>% 
-  dplyr::filter(!phylogenetic_diversity == "NA") %>%
   dplyr::filter(!long < 75 & !long > 125) %>%
   dplyr::filter(!lat < 25 & !lat > 66) %>%  # 99 records
   dplyr::mutate(
-    phylodiversity_mpd_combined = purrr::map2(
-      .x = levels_filtered,
-      .y = phylogenetic_diversity_mpd,
-      .f = ~ get_combined_data(.x, .y))) %>%
-  dplyr::mutate(
-    phylodiversity_mntd_combined = purrr::map2(
-      .x = levels_filtered,
-      .y = phylogenetic_diversity_mntd,
-      .f = ~ get_combined_data(.x, .y))) 
+    phylodiversity_combined = purrr::pmap(
+      list(levels_filtered,
+           phylogenetic_diversity_mpd,
+           phylogenetic_diversity_mntd),
+      .f = ~ {
+        ..1 %>%
+          dplyr::select(sample_id, age,upper, lower) %>%
+          dplyr::left_join(..2 %>% 
+                             dplyr::select(sample_id, mpd.obs.z),
+                           by = "sample_id") %>%
+          dplyr::left_join(..3 %>% 
+                             dplyr::select(sample_id, mntd.obs.z),
+                           by = "sample_id") %>% 
+          rename(mpd = mpd.obs.z,
+                 mntd = mntd.obs.z) %>%
+          return()
+      })
+    ) 
         
        
 
 readr::write_rds(
-  filtered_dat,
+  data_filtered,
   file = "Inputs/Data/data_for_main_analysis_121023.rds",
   compress = "gz"
   )
