@@ -27,13 +27,13 @@ data_filtered <-
     dataset_id,
     long,
     lat,
-    phylodiversity_combined
+    phylodiversity_age_combined
     ) %>%
   dplyr::mutate_at(
     "dataset_id", 
     as_factor
     ) %>%
-  tidyr::unnest(phylodiversity_combined ) %>%
+  tidyr::unnest(phylodiversity_age_combined ) %>%
   dplyr::filter(age > 0) %>% 
   dplyr::mutate(
     age_uncertainty_index = 
@@ -47,16 +47,32 @@ data_filtered <-
 #--------------------------------------------------------#
 data_gam <-
   data_filtered %>%
-  tidyr::pivot_longer(mpd:mntd, 
-                      names_to = "vars", 
-                      values_to = "estimate") %>%
+  tidyr::gather(
+    c(
+      mpd_taxa_labels_abundance_wt,
+      mpd_taxa_labels_no_wt,
+      mpd_phylogeny_pool_abundance_wt,
+      mpd_phylogeny_pool_no_wt,
+      mntd_taxa_labels_abundance_wt,
+      mntd_taxa_labels_no_wt,
+      mntd_phylogeny_pool_abundance_wt,
+      mntd_phylogeny_pool_no_wt
+      ),
+    key = "vars",
+    value = "estimate") %>%
   dplyr::select(dataset_id, 
                 lat, 
                 age, 
                 age_uncertainty_index,
                 vars, 
                 estimate) %>%
-  tidyr::nest(data = -vars)  
+  dplyr::mutate_at(
+    "dataset_id", 
+    as.factor
+    ) %>%
+  dplyr::group_by(vars) %>%
+  tidyr::nest() %>%
+  dplyr::ungroup() 
 
 set.seed(2330)
 

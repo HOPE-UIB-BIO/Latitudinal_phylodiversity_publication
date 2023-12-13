@@ -94,57 +94,119 @@ final_tree <- ape::drop.tip(mytree, drop_list) # 148 families
 # Load the regional tree for further analyses ----
 # No need to re-run the code above everytime!
 #-----------------------------------------------#
-# cl <- parallel::detectCores()
-# cluster <- multidplyr::new_cluster(cl - 1)
-# multidplyr::cluster_library(cluster, "tidyverse")
-# multidplyr::cluster_library(cluster, "ape")
-# multidplyr::cluster_library(cluster, "picante")
-# 
-# # copy custom function to each cluster
-# multidplyr::cluster_copy(cluster, "get_phylogenetic_diversity") 
-# 
-# set.seed(1234)
-# 
-# start_time <- Sys.time()  
+cl <- parallel::detectCores()
+cluster <- multidplyr::new_cluster(cl - 1)
+multidplyr::cluster_library(cluster, "tidyverse")
+multidplyr::cluster_library(cluster, "ape")
+multidplyr::cluster_library(cluster, "picante")
+
+# copy custom function to each cluster
+multidplyr::cluster_copy(cluster, "get_phylogenetic_diversity") 
+
+set.seed(1234)
+
+start_time <- Sys.time()  
 
 phylo_div <-
   full_dat %>%
- # multidplyr::partition(cluster) %>% 
-  dplyr::mutate(phylogenetic_diversity_mpd =
+  multidplyr::partition(cluster) %>% 
+  dplyr::mutate(phylogenetic_diversity =
                   purrr::map2(
-                    .x = harmonised_fam_angiosperms_percentages,
-                    .y = dataset_id,
-                    .f = ~ get_phylogenetic_diversity(
-                      .x, 
-                      .y,
-                      type = "mpd",
-                      null.model = "phylogeny.pool", 
-                      abundance.weighted = TRUE,
-                      runs = 99)
+                    .x = dataset_id,
+                    .y = harmonised_fam_angiosperms_percentages,
+                    .f = get_phylogenetic_diversity
                     )
+                ) %>% 
+  collect() 
+
+finished <- Sys.time()
+total_time <- start_time - finished
+total_time # -1.111461 days
+
+
+#-----------------------------------------------#
+# Test if the estimates are produced correctly for all the levels ----
+#-----------------------------------------------#
+"mpd_taxa_labels_abundance_wt" 
+"mpd_taxa_labels_no_wt"
+"mpd_phylogeny_pool_abundance_wt"
+"mpd_phylogeny_pool_no_wt"  
+"mntd_taxa_labels_abundance_wt"
+"mntd_taxa_labels_no_wt"
+"mntd_phylogeny_pool_abundance_wt"
+"mntd_phylogeny_pool_no_wt"
+
+test_1 <-
+  phylo_div %>%
+  dplyr::mutate(
+    test = purrr::map_chr(
+      phylogenetic_diversity,
+      ~ ifelse(
+        any(
+          is.na(
+            .x$mpd_taxa_labels_abundance_wt
+            )
+          ),
+        "FAIL", 
+        "PASS"
+        )
+      )
+    ) %>%
+  dplyr::filter(test == "FAIL") # 0
+
+test_2 <-
+  phylo_div %>%
+  dplyr::mutate(
+    test = purrr::map_chr(
+      phylogenetic_diversity,
+      ~ ifelse(
+        any(
+          is.na(
+            .x$mpd_taxa_labels_no_wt
+          )
+        ),
+        "FAIL", 
+        "PASS"
+      )
+    )
   ) %>%
-  dplyr::mutate(phylogenetic_diversity_mntd =
-                  purrr::map2(
-                    .x = harmonised_fam_angiosperms_percentages,
-                    .y = dataset_id,
-                    .f = ~ get_phylogenetic_diversity(
-                      .x, 
-                      .y,
-                      type = "mntd",
-                      null.model = "phylogeny.pool", 
-                      abundance.weighted = TRUE,
-                      runs = 99)
-                    )
-  ) 
-                
-#%>% 
-#  collect() 
+  dplyr::filter(test == "FAIL") # 0
 
-#finished <- Sys.time()
-#total_time <- start_time - finished
-#total_time # -1.111461 days
+test_3 <-
+  phylo_div %>%
+  dplyr::mutate(
+    test = purrr::map_chr(
+      phylogenetic_diversity,
+      ~ ifelse(
+        any(
+          is.na(
+            .x$mntd_taxa_labels_abundance_wt
+          )
+        ),
+        "FAIL", 
+        "PASS"
+      )
+    )
+  ) %>%
+  dplyr::filter(test == "FAIL") # 0
 
-
+test_4 <-
+  phylo_div %>%
+  dplyr::mutate(
+    test = purrr::map_chr(
+      phylogenetic_diversity,
+      ~ ifelse(
+        any(
+          is.na(
+            .x$mntd_taxa_labels_no_wt
+          )
+        ),
+        "FAIL", 
+        "PASS"
+      )
+    )
+  ) %>%
+  dplyr::filter(test == "FAIL") # 0
 
 #-------------------------------------------------#
 # Save the data of all sites ----
@@ -158,48 +220,104 @@ readr::write_rds(
 #-------------------------------------------------#
 # Prepare the data ready for further analyses ----
 #-------------------------------------------------#
-get_combined_data <- function(.x, 
-                              .y, 
-                              select_var = NULL
-                              ){
-  dat <- .x %>%
-    dplyr::select(sample_id, age,upper, lower) %>%
-    dplyr::left_join(
-      .y %>% dplyr::select(all_of(select_var)) ,
-      by = "sample_id"
-    ) 
-  
-  return(dat)
-}
-
-data_filtered <- 
+filtered_dat <- 
   phylo_div %>% 
+  dplyr::filter(!phylogenetic_diversity == "NA") %>%
   dplyr::filter(!long < 75 & !long > 125) %>%
   dplyr::filter(!lat < 25 & !lat > 66) %>%  # 99 records
   dplyr::mutate(
-    phylodiversity_combined = purrr::pmap(
-      list(levels_filtered,
-           phylogenetic_diversity_mpd,
-           phylogenetic_diversity_mntd),
+    phylodiversity_age_combined = purrr::map2(
+      .x = phylogenetic_diversity,
+      .y = levels_filtered,
       .f = ~ {
-        ..1 %>%
-          dplyr::select(sample_id, age,upper, lower) %>%
-          dplyr::left_join(..2 %>% 
-                             dplyr::select(sample_id, mpd.obs.z),
-                           by = "sample_id") %>%
-          dplyr::left_join(..3 %>% 
-                             dplyr::select(sample_id, mntd.obs.z),
-                           by = "sample_id") %>% 
-          rename(mpd = mpd.obs.z,
-                 mntd = mntd.obs.z) %>%
-          return()
-      })
-    ) 
-        
-       
+        dat <- .x
+        ages <- 
+          .y %>% 
+          dplyr::select(
+            sample_id,
+            age,
+            upper,
+            lower
+            )
+        pd <- 
+          dat$mpd_taxa_labels_abundance_wt[[1]] %>% 
+          dplyr::select(
+            sample_id,
+            mpd_taxa_labels_abundance_wt = mpd
+            ) %>% 
+          dplyr::inner_join(
+            dat$mpd_taxa_labels_no_wt[[1]] %>% 
+              dplyr::select(
+                sample_id,
+                mpd_taxa_labels_no_wt = mpd
+              ),
+            by = "sample_id"
+            ) %>%
+          dplyr::inner_join(
+            dat$mpd_phylogeny_pool_abundance_wt[[1]] %>% 
+              dplyr::select(
+                sample_id,
+                mpd_phylogeny_pool_abundance_wt = mpd
+              ),
+            by = "sample_id"
+            ) %>% 
+          dplyr::inner_join(
+            dat$mpd_phylogeny_pool_no_wt[[1]] %>% 
+              dplyr::select(
+                sample_id,
+                mpd_phylogeny_pool_no_wt = mpd
+              ),
+            by = "sample_id"
+            ) %>% 
+          dplyr::inner_join(
+            dat$mntd_taxa_labels_abundance_wt[[1]] %>% 
+              dplyr::select(
+                sample_id,
+                mntd_taxa_labels_abundance_wt = mntd
+              ),
+            by = "sample_id"
+            ) %>% 
+          dplyr::inner_join(
+            dat$mntd_taxa_labels_no_wt[[1]] %>% 
+              dplyr::select(
+                sample_id,
+                mntd_taxa_labels_no_wt = mntd
+              ),
+            by = "sample_id"
+            ) %>% 
+          dplyr::inner_join(
+            dat$mntd_phylogeny_pool_abundance_wt[[1]] %>% 
+              dplyr::select(
+                sample_id,
+                mntd_phylogeny_pool_abundance_wt = mntd
+              ),
+            by = "sample_id"
+            ) %>% 
+          dplyr::inner_join(
+            dat$mntd_phylogeny_pool_no_wt[[1]] %>% 
+              dplyr::select(
+                sample_id,
+                mntd_phylogeny_pool_no_wt = mntd
+              ),
+            by = "sample_id"
+            ) %>% 
+          dplyr::inner_join(
+            ages,
+            by = "sample_id"
+            ) %>% 
+          dplyr::select(
+            sample_id,
+            age,
+            upper,
+            lower,
+            everything()
+          )
+        }
+      )
+    )
 
 readr::write_rds(
-  data_filtered,
+  filtered_dat,
   file = "Inputs/Data/data_for_main_analysis_121023.rds",
   compress = "gz"
   )
