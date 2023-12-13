@@ -2,13 +2,18 @@
 # Function for estimating phylogenetic diversity ----
 #-----------------------------------------------#
 
-get_phylogenetic_diversity <- 
-  
-  function(dataset_id, counts) {
+get_phylogenetic_diversity <- function(counts, 
+                                       dataset_id,
+                                       type = "mpd",
+                                       null.model = "phylogeny.pool", 
+                                       abundance.weighted = TRUE,
+                                       runs = 99, 
+                                       ...) {
     
     message(
       msg = dataset_id
     )
+    
     dat <- 
       counts %>%
       as.data.frame() %>% 
@@ -39,126 +44,38 @@ get_phylogenetic_diversity <-
     phy_dist <- cophenetic(pruned_tree) 
     
     # MPD using ses.mpd() function in the 'picante' package
-    mpd_taxa_labels_abundance_wt <- 
+  
+if (type == "mpd") {
+ 
+    
+    mpd_phylogeny <- 
       picante::ses.mpd(
         data_ordered,
         phy_dist,
-        null.model = "taxa.labels", 
-        abundance.weighted = TRUE,
-        runs = 9999
-        ) %>% 
-      rownames_to_column("sample_id") %>% 
-      as_tibble() %>% 
-      dplyr::rename(mpd = mpd.obs.z) 
-    
-    mpd_taxa_labels_no_wt <- 
-      picante::ses.mpd(
-        data_ordered,
-        phy_dist,
-        null.model = "taxa.labels",
-        abundance.weighted = FALSE,
-        runs = 9999
-        ) %>% 
-      rownames_to_column("sample_id") %>% 
-      as_tibble() %>% 
-      dplyr::rename(mpd = mpd.obs.z) 
-    
-    mpd_phylogeny_pool_abundance_wt <- 
-      picante::ses.mpd(
-        data_ordered,
-        phy_dist,
-        null.model = "phylogeny.pool", 
-        abundance.weighted = TRUE,
-        runs = 9999
-        ) %>% 
-    # phylogeny.pool:	Randomizes community data matrix by drawing species from 
-    # pool of phylogeny with the species occurring in at least one community 
-    # (sample pool) with equal probability
-      rownames_to_column("sample_id") %>% 
-      as_tibble() %>% 
-      dplyr::rename(mpd = mpd.obs.z) 
-    
-    mpd_phylogeny_pool_no_wt <- 
-      picante::ses.mpd(
-        data_ordered,
-        phy_dist,
-        null.model = "phylogeny.pool", 
-        abundance.weighted = FALSE,
-        runs = 9999
-        ) %>% 
-      rownames_to_column("sample_id") %>% 
-      as_tibble() %>% 
-      dplyr::rename(mpd = mpd.obs.z) 
-    
-    # The output contains 8 columns. The sixth column 'mpd.obs.z' is the 
-    #  Standardized effect size of MPD vs. null communities (equivalent to -NRI).
-    
-    # "abundance.weighted": Should mean nearest taxon distances for each species 
-    #  be weighted by species abundance? (default = FALSE).
-    
-    
-    # MNTD/NTI using ses.mntd() function in the 'picante' package
-    mntd_taxa_labels_abundance_wt <- 
-      picante::ses.mntd(
-        data_ordered,
-        phy_dist,
-        null.model = "taxa.labels", 
-        abundance.weighted = TRUE,
-        runs = 9999
-        ) %>% 
-      rownames_to_column("sample_id") %>% 
-      as_tibble() %>% 
-      dplyr::rename(mntd = mntd.obs.z) 
-    # The output contains 8 columns. The sixth column 'mntd.obs.z' is the 
-    #  Standardized effect size of MNTD vs. null communities (equivalent to -NTI).
-    
-    mntd_taxa_labels_no_wt <- 
-      picante::ses.mntd(
-        data_ordered,
-        phy_dist,
-        null.model = "taxa.labels", 
-        abundance.weighted = FALSE,
-        runs = 9999
+        null.model = null.model, 
+        abundance.weighted = abundance.weighted,
+        runs = runs
       ) %>% 
       rownames_to_column("sample_id") %>% 
-      as_tibble() %>% 
-      dplyr::rename(mntd = mntd.obs.z) 
-    
-    mntd_phylogeny_pool_abundance_wt <- 
-      picante::ses.mntd(
-        data_ordered,
-        phy_dist,
-        null.model = "phylogeny.pool", 
-        abundance.weighted = TRUE,
-        runs = 9999
-      ) %>% 
-      rownames_to_column("sample_id") %>% 
-      as_tibble() %>% 
-      dplyr::rename(mntd = mntd.obs.z) 
-    
-    mntd_phylogeny_pool_no_wt <- 
-      picante::ses.mntd(
-        data_ordered,
-        phy_dist,
-        null.model = "phylogeny.pool", 
-        abundance.weighted = FALSE,
-        runs = 9999
-      ) %>% 
-      rownames_to_column("sample_id") %>% 
-      as_tibble() %>% 
-      dplyr::rename(mntd = mntd.obs.z) 
-    
-    result <- 
-      tibble(
-        mpd_taxa_labels_abundance_wt = list(mpd_taxa_labels_abundance_wt),
-        mpd_taxa_labels_no_wt = list(mpd_taxa_labels_no_wt),
-        mpd_phylogeny_pool_abundance_wt = list(mpd_phylogeny_pool_abundance_wt),
-        mpd_phylogeny_pool_no_wt = list(mpd_phylogeny_pool_no_wt),
-        mntd_taxa_labels_abundance_wt = list(mntd_taxa_labels_abundance_wt),
-        mntd_taxa_labels_no_wt = list(mntd_taxa_labels_no_wt),
-        mntd_phylogeny_pool_abundance_wt = list(mntd_phylogeny_pool_abundance_wt),
-        mntd_phylogeny_pool_no_wt = list(mntd_phylogeny_pool_no_wt)
-      )
+      as_tibble() 
      
-    return(result) 
+    return(mpd_phylogeny) 
+    
+  } else if (type == "mntd") {  
+    
+    mntd_phylogeny <- 
+      picante::ses.mntd(
+        data_ordered,
+        phy_dist,
+        null.model = null.model, 
+        abundance.weighted = abundance.weighted,
+        runs = runs
+      ) %>% 
+      rownames_to_column("sample_id") %>% 
+      as_tibble() 
+    
+    return(mntd_phylogeny) 
+  } else {
+    stop("type must be either 'mpd' or 'mntd'")
   }
+}
