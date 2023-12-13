@@ -9,44 +9,44 @@ get_phylogenetic_diversity <- function(counts,
                                        abundance.weighted = TRUE,
                                        runs = 99, 
                                        ...) {
-    
-    message(
-      msg = dataset_id
-    )
-    
-    dat <- 
-      counts %>%
-      as.data.frame() %>% 
-      column_to_rownames("sample_id")
-    
-    tree <- 
-      ape::read.tree(
-        paste(
-          "Inputs/Data/Ramirez_Barahona_etal_2020_phylogeny/",
-          "pruned_Ramirez_Barahona_etal_2020_raxml_processed.tre",
-          sep = ""
-          )
-        )
-    
-    # Make a vector of families from the tree that are missing from the counts data
-    drop_list <- 
-      tree$tip.label[!tree$tip.label %in% colnames(dat)]
-    
-    # Remove all the families that do not occur in our sample using drop.tip() 
-    #  function in the 'ape' package.
-    pruned_tree <- ape::drop.tip(tree, drop_list) 
-    
-    # Arrange taxa in the same order as the pruned tree
-    data_ordered <- dat[,c(pruned_tree$tip.label)]
-    
-    # Calculate MPD and MNTD
-    # Create cophenetic distance from the pruned tree.
-    phy_dist <- cophenetic(pruned_tree) 
-    
-    # MPD using ses.mpd() function in the 'picante' package
   
-if (type == "mpd") {
- 
+  message(
+    msg = dataset_id
+  )
+  
+  dat <- 
+    counts %>%
+    as.data.frame() %>% 
+    column_to_rownames("sample_id")
+  
+  tree <- 
+    ape::read.tree(
+      paste(
+        "Inputs/Data/Ramirez_Barahona_etal_2020_phylogeny/",
+        "pruned_Ramirez_Barahona_etal_2020_raxml_processed.tre",
+        sep = ""
+      )
+    )
+  
+  # Make a vector of families from the tree that are missing from the counts data
+  drop_list <- 
+    tree$tip.label[!tree$tip.label %in% colnames(dat)]
+  
+  # Remove all the families that do not occur in our sample using drop.tip() 
+  #  function in the 'ape' package.
+  pruned_tree <- ape::drop.tip(tree, drop_list) 
+  
+  # Arrange taxa in the same order as the pruned tree
+  data_ordered <- dat[,c(pruned_tree$tip.label)]
+  
+  # Calculate MPD and MNTD
+  # Create cophenetic distance from the pruned tree.
+  phy_dist <- cophenetic(pruned_tree) 
+  
+  # MPD using ses.mpd() function in the 'picante' package
+  
+  if (type == "mpd") {
+    
     
     mpd_phylogeny <- 
       picante::ses.mpd(
@@ -58,7 +58,7 @@ if (type == "mpd") {
       ) %>% 
       rownames_to_column("sample_id") %>% 
       as_tibble() 
-     
+    
     return(mpd_phylogeny) 
     
   } else if (type == "mntd") {  
