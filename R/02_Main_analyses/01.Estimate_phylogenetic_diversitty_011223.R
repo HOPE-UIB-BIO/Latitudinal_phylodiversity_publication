@@ -110,7 +110,7 @@ final_tree <- ape::drop.tip(mytree, drop_list) # 148 families
 phylo_div <-
   full_dat %>%
  # multidplyr::partition(cluster) %>% 
-  dplyr::mutate(phylogenetic_diversity =
+  dplyr::mutate(phylogenetic_diversity_mpd =
                   purrr::map2(
                     .x = harmonised_fam_angiosperms_percentages,
                     .y = dataset_id,
@@ -122,7 +122,20 @@ phylo_div <-
                       abundance.weighted = TRUE,
                       runs = 99)
                     )
-  )
+  ) %>%
+  dplyr::mutate(phylogenetic_diversity_mntd =
+                  purrr::map2(
+                    .x = harmonised_fam_angiosperms_percentages,
+                    .y = dataset_id,
+                    .f = ~ get_phylogenetic_diversity(
+                      .x, 
+                      .y,
+                      type = "mntd",
+                      null.model = "phylogeny.pool", 
+                      abundance.weighted = TRUE,
+                      runs = 99)
+                    )
+  ) 
                 
 #%>% 
 #  collect() 
@@ -145,25 +158,32 @@ readr::write_rds(
 #-------------------------------------------------#
 # Prepare the data ready for further analyses ----
 #-------------------------------------------------#
+get_combined_data <- function(.x, .y){
+  dat <- .x %>% 
+    dplyr::select(sample_id, age,upper, lower) %>%
+    dplyr::left_join(
+      .y,
+      by = "sample_id"
+    ) 
+  
+  return(dat)
+}
+
 filtered_dat <- 
   phylo_div %>% 
   dplyr::filter(!phylogenetic_diversity == "NA") %>%
   dplyr::filter(!long < 75 & !long > 125) %>%
   dplyr::filter(!lat < 25 & !lat > 66) %>%  # 99 records
   dplyr::mutate(
-    phylodiversity_age_combined = purrr::map2(
+    phylodiversity_mpd_combined = purrr::map2(
       .x = levels_filtered,
-      .y = phylogenetic_diversity,
-      .f = function(.x, .y){
-        dat <- .x %>% 
-          dplyr::select(sample_id, age,upper, lower) %>%
-          dplyr::left_join(
-            .y,
-            by = "sample_id"
-            ) 
-        
-          return(dat)
-        }))        
+      .y = phylogenetic_diversity_mpd,
+      .f = ~ get_combined_data(.x, .y))) %>%
+  dplyr::mutate(
+    phylodiversity_mntd_combined = purrr::map2(
+      .x = levels_filtered,
+      .y = phylogenetic_diversity_mntd,
+      .f = ~ get_combined_data(.x, .y))) 
         
        
 
