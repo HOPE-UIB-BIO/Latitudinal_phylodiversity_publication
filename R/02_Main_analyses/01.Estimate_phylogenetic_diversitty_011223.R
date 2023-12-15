@@ -156,22 +156,8 @@ readr::write_rds(
   )
 
 #-------------------------------------------------#
-# Prepare the data ready for further analyses ----
+# Prepare the data for further analyses ----
 #-------------------------------------------------#
-get_combined_data <- function(.x, 
-                              .y, 
-                              select_var = NULL
-                              ){
-  dat <- .x %>%
-    dplyr::select(sample_id, age,upper, lower) %>%
-    dplyr::left_join(
-      .y %>% dplyr::select(all_of(select_var)) ,
-      by = "sample_id"
-    ) 
-  
-  return(dat)
-}
-
 data_filtered <- 
   phylo_div %>% 
   dplyr::filter(!long < 75 & !long > 125) %>%
@@ -197,7 +183,9 @@ data_filtered <-
     ) 
         
        
-
+#-------------------------------------------------#
+# Save the filtered data  ----
+#-------------------------------------------------#
 readr::write_rds(
   data_filtered,
   file = "Inputs/Data/data_for_main_analysis_121023.rds",
