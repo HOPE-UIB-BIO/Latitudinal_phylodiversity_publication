@@ -25,6 +25,9 @@ time_reference_table <-
     ) %>% 
   dplyr::filter(endyear > -12001)
 
+
+# In following you can remove download tasmin, and the bio_var_selected that are not relevant for this study, will reduce time to download and extract a lot of data not needed.
+
 raw_data <- 
   get_climate_data(
     variables_selected = c("bio", "tasmin"),
