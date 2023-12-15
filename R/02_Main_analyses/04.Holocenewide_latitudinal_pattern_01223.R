@@ -33,7 +33,7 @@ data_filtered <-
     "dataset_id", 
     as_factor
     ) %>%
-  tidyr::unnest(phylodiversity_combined ) %>%
+  tidyr::unnest(phylodiversity_combined) %>%
   dplyr::filter(age > 0) %>% 
   dplyr::mutate(
     age_uncertainty_index = 
@@ -60,8 +60,8 @@ data_gam <-
 
 set.seed(2330)
 
-gam_mod1 <-
-  data_gam[c(3, 7),] %>%
+output_gam <-
+  data_gam %>%
   dplyr::mutate(
     gam_model =
       purrr::map(
@@ -154,23 +154,25 @@ gam_mod1 <-
       )
     )
 
-write_rds(gam_mod1,
+write_rds(output_gam,
           file = "Outputs/Data/v2_121023/Overall_gam_lat_PD_271023.rds",
           compress = "gz")
 
-# Extract summary of GAM models 
-overall_gam <- 
+# Extract and save summary of GAM models 
+output_gam <- 
   read_rds("Outputs/Data/v2_121023/Overall_gam_lat_PD_271023.rds") 
 
 gam_summary_mpd <-
-  flextable::as_flextable(overall_gam[1, ]$gam_model[[1]])
+  flextable::as_flextable(output_gam[1, ]$gam_model[[1]])
+
 save_as_docx(
   gam_summary_mpd,
   path = "Outputs/Table/v2_121023/overall_gam_mpd_no_bam_271023.docx"
   )
 
 gam_summary_mntd <-
-  flextable::as_flextable(overall_gam[2, ]$gam_model[[1]])
+  flextable::as_flextable(output_gam[2, ]$gam_model[[1]])
+
 save_as_docx(
   gam_summary_mntd,
   path = "Outputs/Table/v2_121023/overall_gam_mntd_no_bam_271023.docx"
@@ -182,8 +184,8 @@ save_as_docx(
 # 5.1 Plot the model spatially ----
 plot_gam <-
   purrr::map2(
-    .x = overall_gam$predicted_gam,
-    .y = overall_gam$vars,
+    .x = output_gam$predicted_gam,
+    .y = output_gam$vars,
     .f = ~ {
       dat <-
         .x %>%
@@ -286,8 +288,8 @@ gam_curve_mntd <-
 # 5.2 Plot the model temporally ----
 plot_gam_temporal <-
   purrr::map2(
-    .x = overall_gam$predicted_gam,
-    .y = overall_gam$vars,
+    .x = output_gam$predicted_gam,
+    .y = output_gam$vars,
     
     .f = ~ {
       dat <-
@@ -505,9 +507,9 @@ ggplot2::ggsave(
 plot_gam <-
   purrr::pmap(
     .l = list(
-      overall_gam$data, # ..1
-      overall_gam$predicted_gam, # ..2
-      overall_gam$vars # ..3
+      output_gam$data, # ..1
+      output_gam$predicted_gam, # ..2
+      output_gam$vars # ..3
       ),
     .f = ~ {
       
@@ -624,9 +626,9 @@ gam_curve_mntd <-
 plot_gam_temporal <-
   purrr::pmap(
     .l = list(
-      overall_gam$data, # ..1
-      overall_gam$predicted_gam, # ..2
-      overall_gam$vars # ..3
+      output_gam$data, # ..1
+      output_gam$predicted_gam, # ..2
+      output_gam$vars # ..3
       ),
     
     .f = ~ {
