@@ -151,13 +151,14 @@ age_uncertainty_matrix <-
     age_uncertainty_index
     ) 
   
-
-# Holocene-wide phylogenetic metrics ----
-overall_gam <- 
+#----------------------------------------------------------#
+# Import Holocene-wide phylogenetic metrics ----
+#----------------------------------------------------------#
+output_gam_pd <- 
   readr::read_rds("Outputs/Data/v2_121023/Overall_gam_lat_PD_271023.rds") 
 
 mpd_matrix <- 
-  overall_gam[1,] %>% 
+  output_gam_pd[1,] %>% 
   dplyr::select(predicted_gam) %>% 
   tidyr::unnest(predicted_gam) %>% 
   dplyr::select(-dataset_id) %>% 
@@ -172,7 +173,7 @@ mpd_matrix <-
     )
 
 mntd_matrix <- 
-  overall_gam[2,] %>% 
+  output_gam_pd[2,] %>% 
   dplyr::select(predicted_gam) %>% 
   tidyr::unnest(predicted_gam) %>% 
   dplyr::select(-dataset_id) %>% 
@@ -193,7 +194,7 @@ phylo_matrix <-
     by = c("lat", "age")
     )
 
-full_marix <-
+full_matrix <-
   dplyr::inner_join(
     climate_matrix, 
     n_samples_matrix,
@@ -207,8 +208,12 @@ full_marix <-
     phylo_matrix,
     by = c("lat", "age")
     )
+
+#----------------------------------------------------------#
+# Export full matrix ----
+#----------------------------------------------------------#
 readr::write_rds(
-  full_marix,
+  full_matrix,
   file = "Outputs/Data/v2_121023/Space_time_matrix_271023.rds",
   compress = "gz"
   )
