@@ -15,51 +15,56 @@ source("R/00_Config_file.R")
 #--------------------------------------------------------#
 # 2. Load the data ----
 #--------------------------------------------------------#
-data_full <- 
-  readr::read_rds(
-    paste(
-      "Inputs/Data/",
-      "data_for_main_analysis_121023.rds",
-      sep = ""
-      )
-    ) %>% 
-  dplyr::select(
-    dataset_id,
-    lat,
-    phylo_combined = phylodiversity_age_combined
-    ) %>%
-  tidyr::unnest(phylo_combined) %>%
-  dplyr::filter(age > 0) %>%
-  dplyr::mutate(
-    age_uncertainty_index = 
-      mean(
-        abs(lower - upper)) / abs(lower - upper)
-    )
+
+## Question: can you not import data filtered? what is the different from this data filtered from before?
+# then it is not necessary to filter again, but only add the period 
+
+# data_full <- 
+#   readr::read_rds(
+#     paste(
+#       "Inputs/Data/",
+#       "data_for_main_analysis_121023.rds",
+#       sep = ""
+#       )
+#     ) %>% 
+#   dplyr::select(
+#     dataset_id,
+#     lat,
+#     phylo_combined = phylodiversity_age_combined
+#     ) %>%
+#   tidyr::unnest(phylo_combined) %>%
+#   dplyr::filter(age > 0) %>%
+#   dplyr::mutate(
+#     age_uncertainty_index = 
+#       mean(
+#         abs(lower - upper)) / abs(lower - upper)
+#     )
 #--------------------------------------------------------#
 # 3. Fit and plot the GAM models ----
 #--------------------------------------------------------#
 # A. 1000-year time bin ----
-data_filtered <-
-  data_full %>%
+data_filtered <- data_filtered  %>%
   dplyr::arrange(age) %>% 
   dplyr::mutate(
     period = 
       ceiling(age / 1000)
     ) %>%
   dplyr::mutate(period = period * 1000) %>%
-  dplyr::mutate_at("dataset_id", as_factor) %>%
-  dplyr::mutate_at("period", as_factor) %>%
-  dplyr::select(
-    dataset_id,
-    lat,
-    age,
-    period,
-    age_uncertainty_index,
-    mpd = mpd_phylogeny_pool_abundance_wt,
-    mntd = mntd_phylogeny_pool_abundance_wt
-    )
+ # dplyr::mutate_at("dataset_id", as_factor) %>%
+  dplyr::mutate_at("period", as_factor) 
 
-data_gam <-
+# %>%
+#   dplyr::select(
+#     dataset_id,
+#     lat,
+#     age,
+#     period,
+#     age_uncertainty_index,
+#     mpd = mpd_phylogeny_pool_abundance_wt,
+#     mntd = mntd_phylogeny_pool_abundance_wt
+#     )
+
+data_gam_period <-
   data_filtered %>%
   tidyr::gather(
     c(
@@ -76,7 +81,7 @@ data_gam <-
 set.seed(2330)
 
 gam_mod_temporal_1k <-
-  data_gam %>%
+  data_gam_period %>%
   dplyr::mutate(
     gam_model =
       purrr::map(
@@ -126,7 +131,12 @@ gam_mod_temporal_1k <-
           }
         )
     )
-        
+
+
+#--------------------------------------------------------#
+# Export model ----
+#--------------------------------------------------------#
+
 readr::write_rds(
   gam_mod_temporal_1k,
   file = "Outputs/Data/v2_121023/Model_1k_period_271023.rds",
@@ -140,6 +150,7 @@ temporal_gam_summary_mpd <-
   flextable::as_flextable(
     gam_mod_temporal_1k[1,]$gam_model[[1]]
     )
+
 save_as_docx(
   temporal_gam_summary_mpd,
   path = "Outputs/Table/v2_121023/MPD_1k_no_bam_271023.docx"
@@ -149,6 +160,7 @@ temporal_gam_summary_mntd <-
   flextable::as_flextable(
     gam_mod_temporal_1k[2, ]$gam_model[[1]]
     )
+
 save_as_docx(
   temporal_gam_summary_mntd,
   path = "Outputs/Table/v2_121023/MNTD_1k_no_bam_271023.docx"
@@ -517,6 +529,10 @@ mntd_period_1000 <-
     panel.spacing = unit(-0.75, "lines")
     )
 
+#--------------------------------------------------------#
+# Save plot ----
+#--------------------------------------------------------#
+
 ggplot2::ggsave(
   mntd_period_1000,
   filename = "Outputs/Figure/v2_121023/MNTD_diff_1000_no_bam_271023.tiff",
@@ -673,7 +689,9 @@ plot_1k <-
       barwidth = 7.5
       )
     )
-
+#--------------------------------------------------------#
+# Save plot ----
+#--------------------------------------------------------#
 ggsave(
   plot_1k,
   filename = "Outputs/Figure/v2_121023/GAM_1k_bin_no_bam_271023.tiff",
