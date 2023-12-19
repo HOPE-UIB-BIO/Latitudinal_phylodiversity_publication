@@ -8,7 +8,7 @@ get_phylogenetic_diversity <-
            type = "mpd",
            null.model = "phylogeny.pool", 
            abundance.weighted = TRUE,
-           runs = 99,
+           runs = 9999,
            ...) {
     message(
     msg = dataset_id
@@ -46,6 +46,7 @@ get_phylogenetic_diversity <-
   # MPD using ses.mpd() function in the 'picante' package
   
   if (type == "mpd") {
+    set.seed(1234)
     mpd_phylogeny <- 
       picante::ses.mpd(
         data_ordered,
@@ -59,8 +60,9 @@ get_phylogenetic_diversity <-
     
     return(mpd_phylogeny) 
     
-  } else if (type == "mntd") {  
+  } else if (type == "mntd") {
     
+    set.seed(1234)
     mntd_phylogeny <- 
       picante::ses.mntd(
         data_ordered,
