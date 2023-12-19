@@ -3,7 +3,7 @@
 # Latitudinal gradients in the phylogenetic assembly of angiosperms in Asia 
 # during the Holocene
 
-# Prepare data for estimation of MPD and MNTD
+# Prepare data for estimation of MPD and MNTD ----
 #                          
 #----------------------------------------------------------#
 
@@ -48,7 +48,8 @@ dat_harmonised <-
                             "_280923",
                             ".csv", 
                             sep = ""
-                            )
+                            ),
+                          show_col_types = FALSE
                           )
                       message(
                         msg = paste0(
@@ -124,21 +125,23 @@ dat_harmonised <-
 # Prepare the data for phylogenetic diversity analysis ----
 #-----------------------------------------------#
 # Keep only the samples in the 'harmonised_fam_angiosperms' that are present in
-# 'harmonised_counts' because harmonised counts are filtered based on HOPE criteria
+# 'harmonised_counts' because harmonised counts are filtered based on HOPE 
+# criteria
 
 dat_harmonised_filtered <- 
   dat_harmonised %>% 
   dplyr::mutate(
-    harmonised_fam_angiosperms = purrr::map2(
-      .x = harmonised_counts,
-      .y = harmonised_fam_angiosperms,
-      .f = ~ .x %>% 
+    harmonised_fam_angiosperms = 
+      purrr::map2(
+        .x = harmonised_counts,
+        .y = harmonised_fam_angiosperms,
+        .f = ~ .x %>% 
         dplyr::select(sample_id) %>% 
-        inner_join(
-          .y,
-          by = "sample_id"
-        )
-      ),
+          inner_join(
+            .y,
+            by = "sample_id"
+            )
+        ),
     n_sample = purrr::map_dbl(
       harmonised_fam_angiosperms,
       ~ nrow(.x)
@@ -165,7 +168,8 @@ dat_harmonised_filtered <-
   dplyr::filter(n_sample >= min_n_levels) %>%  #[config_criteria]
   dplyr::select(-n_sample)
 
-dat_harmonised_filtered %>%
+suppressWarnings(
+  dat_harmonised_filtered %>%
   dplyr::mutate(test = purrr::map_lgl(
     harmonised_fam_angiosperms,
     ~ ifelse(
@@ -173,11 +177,12 @@ dat_harmonised_filtered %>%
         any(
           colSums(.x %>%
                     column_to_rownames("sample_id")
-          )
-        )
-      ), TRUE, FALSE
-    )
-  )
+                  )
+              )
+         ), TRUE, FALSE
+       )
+     )
+   ) 
   ) %>%
   dplyr::select(test) %>%
   dplyr::filter(test == "TRUE") # 0, OK!
@@ -234,7 +239,12 @@ dat_harmonised_filtered_1 <-
         
 
 write_rds(dat_harmonised_filtered_1, 
-          file = "Inputs/Data/data_processed_for_phylodiversity_estimation_101023.rds",
+          file = paste(
+            "Inputs/Data/",
+            "data_processed_for_",
+            "phylodiversity_estimation_191223.rds",
+            sep = ""
+            ),
           compress = "gz")
 
 
