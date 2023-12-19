@@ -21,32 +21,36 @@ overall_gam_pd <-
 #--------------------------------------------------------#
 # 3. Load the data ----
 #--------------------------------------------------------#
-data_full <- 
-  readr::read_rds(
-    paste(
-      "Inputs/Data/",
-      "data_for_main_analysis_121023.rds",
-      sep = ""
-    )
-  ) 
+# see comment before, would make one data prep in the start, and just load that data instead of repeating the same data filtering step at each script
+
+# data_full <- 
+#   readr::read_rds(
+#     paste(
+#       "Inputs/Data/",
+#       "data_for_main_analysis_121023.rds",
+#       sep = ""
+#     )
+#   ) 
 
 #--------------------------------------------------------#
 # 4. Filter the data ----
 #--------------------------------------------------------#
-source_data_filtered <-
-  data_full %>%
-  dplyr::select(
-    dataset_id,
-    lat,
-    phylodiversity_age_combined) %>%
-  tidyr::unnest(phylodiversity_age_combined) %>%
-  dplyr::filter(age > 0 & age < 12000) %>%
-  dplyr::mutate(
-    age_uncertainty_index =
-      mean(
-        abs(lower - upper)
-      ) / abs(lower - upper)
-  )
+
+
+# source_data_filtered <-
+#   data_full %>%
+#   dplyr::select(
+#     dataset_id,
+#     lat,
+#     phylodiversity_age_combined) %>%
+#   tidyr::unnest(phylodiversity_age_combined) %>%
+#   dplyr::filter(age > 0 & age < 12000) %>%
+#   dplyr::mutate(
+#     age_uncertainty_index =
+#       mean(
+#         abs(lower - upper)
+#       ) / abs(lower - upper)
+#   )
 
 #--------------------------------------------------------#
 # 5. Load the climate data predicted for each sample of the datasets ----
