@@ -48,7 +48,8 @@ dat_harmonised <-
                             "_280923",
                             ".csv", 
                             sep = ""
-                            )
+                            ),
+                          show_col_types = FALSE
                           )
                       message(
                         msg = paste0(
@@ -165,7 +166,8 @@ dat_harmonised_filtered <-
   dplyr::filter(n_sample >= min_n_levels) %>%  #[config_criteria]
   dplyr::select(-n_sample)
 
-dat_harmonised_filtered %>%
+suppressWarnings(
+  dat_harmonised_filtered %>%
   dplyr::mutate(test = purrr::map_lgl(
     harmonised_fam_angiosperms,
     ~ ifelse(
@@ -173,12 +175,13 @@ dat_harmonised_filtered %>%
         any(
           colSums(.x %>%
                     column_to_rownames("sample_id")
-          )
-        )
-      ), TRUE, FALSE
-    )
-  )
-  ) %>%
+                  )
+           )
+         ), TRUE, FALSE
+       )
+     )
+   )
+  )%>%
   dplyr::select(test) %>%
   dplyr::filter(test == "TRUE") # 0, OK!
 
@@ -233,9 +236,16 @@ dat_harmonised_filtered_1 <-
   )
         
 
-write_rds(dat_harmonised_filtered_1, 
-          file = "Inputs/Data/data_processed_for_phylodiversity_estimation_101023.rds",
-          compress = "gz")
+write_rds(
+  dat_harmonised_filtered_1, 
+  file = paste(
+    "Inputs/Data/",
+    "data_processed_for_",
+    "phylodiversity_estimation_191223.rds",
+    sep = ""
+    ),
+  compress = "gz"
+  )
 
 
   
