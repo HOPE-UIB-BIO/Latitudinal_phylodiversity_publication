@@ -17,15 +17,16 @@ source("R/00_Config_file.R")
 #--------------------------------------------------------#
 # 2. Load the data ----
 #--------------------------------------------------------#
-data_matrix <- 
+full_matrix <- 
   readr::read_rds("Outputs/Data/v2_121023/Space_time_matrix_271023.rds")
 
 #--------------------------------------------------------#
 # 3. Plot line and heat plots ----
 #--------------------------------------------------------#
-# Number of samples ----
+
+# 3.1 Number of samples ----
 n_sample_curve <-
-  data_matrix %>%
+  full_matrix %>%
   ggplot2::ggplot() +
   ggplot2::geom_smooth(
     aes(
@@ -80,7 +81,7 @@ n_sample_curve <-
     )
 
 plot_n_samples <-  
-  data_matrix %>%
+  full_matrix %>%
   ggplot2::ggplot(
     aes(
       x = age,
@@ -141,6 +142,9 @@ final_n_samples <-
     nrow = 1,
     labels = c("(a)", "(b)")
     )
+
+
+# Save final plot of samples ----
 ggplot2::ggsave(
   final_n_samples,
   filename = "Outputs/Figure/v2_121023/N_samples_271023.tiff",
@@ -152,9 +156,9 @@ ggplot2::ggsave(
   )
 
 
-# Age uncertainty ----
+# 3.2 Age uncertainty ----
 age_error_curve <- 
-  data_matrix %>%
+  full_matrix %>%
   ggplot2::ggplot() +
   ggplot2::geom_smooth(
     aes(
@@ -209,7 +213,7 @@ age_error_curve <-
     )
 
 plot_age_error <-  
-  data_matrix %>%
+  full_matrix %>%
   ggplot2::ggplot(
     aes(
       x = age,
@@ -272,6 +276,7 @@ final_age_error <-
     labels = c("(a)", "(b)")
     )
 
+# Save final plot of age uncertainty ----
 ggplot2::ggsave(
   final_age_error,
   filename = "Outputs/Figure/v2_121023/Age_uncertainty_271023.tiff",
@@ -282,19 +287,20 @@ ggplot2::ggsave(
   compress = "lzw"
   )
 
-# Climate variables ----
+# 3.3 Climate variables ----
 dat1 <- 
-  data_matrix %>%
+  full_matrix %>%
   dplyr::group_by(lat) %>%
   dplyr::summarise_all(mean)
+
 dat2 <- 
-  data_matrix %>%
+  full_matrix %>%
   dplyr::group_by(age) %>%
   dplyr::summarise_all(mean)
 
 # Annual mean temperature ----
 annual_temp_curve <-
-  data_matrix %>%
+  full_matrix %>%
   ggplot2::ggplot(
     aes(
       x = lat,
@@ -356,7 +362,7 @@ annual_temp_curve <-
     )
 
 annual_temp_temporal <-
-  data_matrix %>%
+  full_matrix %>%
   ggplot2::ggplot(
     aes(
       x = age,
@@ -423,7 +429,7 @@ annual_temp_temporal <-
     )   
 
 annual_temp_heatplot <-
-  data_matrix %>% 
+  full_matrix %>% 
   ggplot2::ggplot(
     aes(
       x = age,
@@ -502,7 +508,7 @@ final_annual_temp <-
 
 # Minimum temperature of the coldest month ----
 temp_cold_curve <- 
-  data_matrix %>%
+  full_matrix %>%
   ggplot2::ggplot(
     aes(
       x = lat,
@@ -562,7 +568,7 @@ temp_cold_curve <-
     )
 
 temp_cold_heatplot <-
-  data_matrix %>% 
+  full_matrix %>% 
   ggplot2::ggplot(
     aes(x = age, 
         y = lat, 
@@ -624,7 +630,7 @@ temp_cold_heatplot <-
   )
 
 temp_cold_temporal <-
-  data_matrix %>%
+  full_matrix %>%
   ggplot2::ggplot(
     aes(
       x = age,
@@ -706,7 +712,7 @@ final_temp_cold <-
 
 # Annual precipitation ----
 annual_precip_curve <- 
-  data_matrix %>% 
+  full_matrix %>% 
   ggplot2::ggplot(
     aes(
       x = lat,
@@ -766,7 +772,7 @@ annual_precip_curve <-
     )
 
 annual_precip_heatplot <-
-  data_matrix %>% 
+  full_matrix %>% 
   ggplot2::ggplot(
     aes(
       x = age, 
@@ -829,7 +835,7 @@ annual_precip_heatplot <-
   )
 
 annual_precip_temporal <-
-  data_matrix %>%
+  full_matrix %>%
   ggplot2::ggplot(
     aes(
       x = age,
@@ -911,7 +917,7 @@ final_ann_prec <-
 
 # Summer precipitation ----
 summer_precip_curve <- 
-  data_matrix %>% 
+  full_matrix %>% 
   ggplot2::ggplot(
     aes(
       x = lat,
@@ -971,7 +977,7 @@ summer_precip_curve <-
     )
 
 summer_precip_heatplot <-
-  data_matrix %>% 
+  full_matrix %>% 
   ggplot2::ggplot(
     aes(
       x = age,
@@ -1034,7 +1040,7 @@ summer_precip_heatplot <-
   )
 
 summer_precip_temporal <- 
-  data_matrix %>%
+  full_matrix %>%
   ggplot2::ggplot(
     aes(
       x = age,
@@ -1115,7 +1121,7 @@ final_prec_summer <-
 
 # Winter precipitation ----
 winter_precip_curve <- 
-  data_matrix %>% 
+  full_matrix %>% 
   ggplot2::ggplot(
     aes(
       x = lat,
@@ -1179,7 +1185,7 @@ winter_precip_curve <-
     )
 
 winter_precip_heatplot <-
-  data_matrix %>% 
+  full_matrix %>% 
   ggplot2::ggplot(
     aes(
       x = age, 
@@ -1242,7 +1248,7 @@ winter_precip_heatplot <-
   )
 
 prec_winter_temporal <- 
-  data_matrix %>%
+  full_matrix %>%
   ggplot2::ggplot(
     aes(
       x = age,
@@ -1333,6 +1339,9 @@ final_figure <-
     hjust = -2,
     vjust = 1)
 
+#-----------------------------------------------#
+# Save final climate trends ---
+#-----------------------------------------------#
 ggplot2::ggsave(
   final_figure,
   filename = "Outputs/Figure/v2_121023/Climate_trends_271023.tiff",
