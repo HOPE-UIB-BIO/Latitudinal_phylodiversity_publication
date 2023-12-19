@@ -26,8 +26,8 @@ time_reference_table <-
   dplyr::filter(endyear > -12001)
 
 
-# 'tasmin', and the 'bio_var_selected' are additional here, will reduce time to 
-#  download and extract a lot of data not needed.
+# 'tasmin' and 'bio_var_selected' are not actually needed here, will reduce time 
+#  to download and extract a lot of data, if not needed.
 
 raw_data <- 
   get_climate_data(
