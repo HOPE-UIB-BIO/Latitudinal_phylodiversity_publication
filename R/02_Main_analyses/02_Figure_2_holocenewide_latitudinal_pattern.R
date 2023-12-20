@@ -167,14 +167,14 @@ write_rds(output_gam_pd,
 #--------------------------------------------------------#
 
 output_gam_pd <- 
-  read_rds("Outputs/Data/v2_121023/Overall_gam_lat_PD_271023.rds") 
+  read_rds("Outputs/Data/Overall_gam_lat_PD_201223.rds") 
 
 gam_summary_mpd <-
   flextable::as_flextable(output_gam_pd[1, ]$gam_model[[1]])
 
 save_as_docx(
   gam_summary_mpd,
-  path = "Outputs/Table/v2_121023/overall_gam_mpd_no_bam_271023.docx"
+  path = "Outputs/Table/overall_gam_mpd_201223.docx"
   )
 
 gam_summary_mntd <-
@@ -182,7 +182,7 @@ gam_summary_mntd <-
 
 save_as_docx(
   gam_summary_mntd,
-  path = "Outputs/Table/v2_121023/overall_gam_mntd_no_bam_271023.docx"
+  path = "Outputs/Table/overall_gam_mntd_201223.docx"
   )
 
 #--------------------------------------------------------#
@@ -482,8 +482,8 @@ final_composite_rev_x <-
 ggplot2::ggsave(
   final_composite,
   filename = paste(
-    "Outputs/Figure/v2_121023/",
-    "Holocene_wide_spatiotemporal_pattern_no_bam_271023.tiff",
+    "Outputs/Figure/",
+    "Holocene_wide_spatiotemporal_pattern_201223.tiff",
     sep = ""
   ),
   height = 20,
@@ -497,7 +497,7 @@ ggplot2::ggsave(
   final_composite_rev_x,
   filename = paste(
     "Outputs/Figure/v2_121023/",
-    "Holocene_wide_spatiotemporal_pattern_no_bam_rev_x_271023.tiff",
+    "Holocene_wide_spatiotemporal_pattern_rev_x_201223.tiff",
     sep = ""
   ),
   height = 20,
@@ -837,8 +837,8 @@ final_composite_rev_x <-
 ggplot2::ggsave(
   final_composite,
   filename = paste(
-    "Outputs/Figure/v2_121023/",
-    "Holocene_wide_spatiotemporal_pattern_271023_no_bam_suppl.tiff",
+    "Outputs/Figure/",
+    "Holocene_wide_spatiotemporal_pattern_201223_suppl.tiff",
     sep = ""
   ),
   height = 20,
@@ -851,8 +851,8 @@ ggplot2::ggsave(
 ggplot2::ggsave(
   final_composite_rev_x,
   filename = paste(
-    "Outputs/Figure/v2_121023/",
-    "Holocene_wide_spatiotemporal_pattern_271023_no_bam_suppl_rev_x.tiff",
+    "Outputs/Figure/",
+    "Holocene_wide_spatiotemporal_pattern_201223_no_bam_suppl_rev_x.tiff",
     sep = ""
   ),
   height = 20,
