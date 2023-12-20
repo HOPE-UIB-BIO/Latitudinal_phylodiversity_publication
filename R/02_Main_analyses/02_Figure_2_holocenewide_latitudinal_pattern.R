@@ -852,7 +852,7 @@ ggplot2::ggsave(
   final_composite_rev_x,
   filename = paste(
     "Outputs/Figure/",
-    "Holocene_wide_spatiotemporal_pattern_201223_no_bam_suppl_rev_x.tiff",
+    "Holocene_wide_spatiotemporal_pattern_201223_suppl_rev_x.tiff",
     sep = ""
   ),
   height = 20,
