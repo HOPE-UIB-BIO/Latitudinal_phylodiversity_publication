@@ -15,54 +15,39 @@ source("R/00_Config_file.R")
 #--------------------------------------------------------#
 # 2. Load the data ----
 #--------------------------------------------------------#
+data_filtered_phylodiversity <- 
+  readr::read_rds(
+    "Inputs/Data/data_for_main_analysis_191223.rds"
+    )
 
-## Question: can you not import data filtered? what is the different from this data filtered from before?
-# then it is not necessary to filter again, but only add the period 
-
-# data_full <- 
-#   readr::read_rds(
-#     paste(
-#       "Inputs/Data/",
-#       "data_for_main_analysis_121023.rds",
-#       sep = ""
-#       )
-#     ) %>% 
-#   dplyr::select(
-#     dataset_id,
-#     lat,
-#     phylo_combined = phylodiversity_age_combined
-#     ) %>%
-#   tidyr::unnest(phylo_combined) %>%
-#   dplyr::filter(age > 0) %>%
-#   dplyr::mutate(
-#     age_uncertainty_index = 
-#       mean(
-#         abs(lower - upper)) / abs(lower - upper)
-#     )
 #--------------------------------------------------------#
 # 3. Fit and plot the GAM models ----
 #--------------------------------------------------------#
-# A. 1000-year time bin ----
-data_filtered <- data_filtered  %>%
+# 1000-year time bin ----
+data_filtered <- 
+  data_filtered_phylodiversity %>%
+  dplyr::select(
+    dataset_id,
+    lat,
+    phylodiversity_combined
+    ) %>% 
+  tidyr::unnest(phylodiversity_combined) %>%
+  dplyr::filter(age > 0) %>%
+  dplyr::mutate(
+    age_uncertainty_index =
+      mean(
+        abs(lower - upper)
+        ) / abs(lower - upper)
+    ) %>% 
   dplyr::arrange(age) %>% 
   dplyr::mutate(
     period = 
       ceiling(age / 1000)
     ) %>%
   dplyr::mutate(period = period * 1000) %>%
- # dplyr::mutate_at("dataset_id", as_factor) %>%
+  dplyr::mutate_at("dataset_id", as_factor) %>% 
   dplyr::mutate_at("period", as_factor) 
 
-# %>%
-#   dplyr::select(
-#     dataset_id,
-#     lat,
-#     age,
-#     period,
-#     age_uncertainty_index,
-#     mpd = mpd_phylogeny_pool_abundance_wt,
-#     mntd = mntd_phylogeny_pool_abundance_wt
-#     )
 
 data_gam_period <-
   data_filtered %>%
@@ -78,8 +63,6 @@ data_gam_period <-
   tidyr::nest() %>%
   dplyr::ungroup() 
 
-set.seed(2330)
-
 gam_mod_temporal_1k <-
   data_gam_period %>%
   dplyr::mutate(
@@ -88,6 +71,9 @@ gam_mod_temporal_1k <-
         .x = data, 
         .f = ~ {
           data <- .x
+          
+          set.seed(2468)
+          
           mod <-
             mgcv::gam(
               estimate ~
@@ -134,12 +120,12 @@ gam_mod_temporal_1k <-
 
 
 #--------------------------------------------------------#
-# Export model ----
+# Save model ----
 #--------------------------------------------------------#
 
 readr::write_rds(
   gam_mod_temporal_1k,
-  file = "Outputs/Data/v2_121023/Model_1k_period_271023.rds",
+  file = "Outputs/Data/Model_1k_period_201223.rds",
   compress = "gz"
   )
 
@@ -153,7 +139,7 @@ temporal_gam_summary_mpd <-
 
 save_as_docx(
   temporal_gam_summary_mpd,
-  path = "Outputs/Table/v2_121023/MPD_1k_no_bam_271023.docx"
+  path = "Outputs/Table/MPD_1k_201223.docx"
   )
 
 temporal_gam_summary_mntd <-
@@ -163,18 +149,179 @@ temporal_gam_summary_mntd <-
 
 save_as_docx(
   temporal_gam_summary_mntd,
-  path = "Outputs/Table/v2_121023/MNTD_1k_no_bam_271023.docx"
+  path = "Outputs/Table/MNTD_1k_201223.docx"
   )
 
 #--------------------------------------------------------#
-# 5. Test of differences in slopes of models of different periods ----
+# 5. Plot the models ----
+#--------------------------------------------------------#
+data_plot_1k <- 
+  gam_mod_temporal_1k %>% 
+  dplyr::mutate(
+    predicted_gam = 
+      purrr::map2(
+        .x = data, 
+        .y = gam_model,
+        .f = ~ {
+          data <- .x
+          new_data_gam <-
+            with(
+              data,
+              base::expand.grid(
+                lat = seq(
+                  min(lat), 
+                  max(lat), 
+                  by = 0.25
+                ),
+                dataset_id = dataset_id[1],
+                age = mean(age),
+                period = seq(1000, 12000, by = 1000)
+              )
+            )
+          not_inlude <-
+            gratia::smooths(.y) %>%
+            str_subset(., "dataset_id|age")
+          crit <- qnorm((1 - 0.89) / 2, lower.tail = FALSE)
+          
+          set.seed(2468)
+          predicted_mod <-
+            new_data_gam %>%
+            dplyr::bind_cols(
+              predict(
+                .y,
+                newdata = new_data_gam,
+                type = "response",
+                se.fit = TRUE,
+                exclude = not_inlude
+              )
+            ) %>%
+            dplyr::mutate(
+              var = fit,
+              lwr = fit - (crit * se.fit),
+              upr = fit + (crit * se.fit)
+            ) %>%
+            dplyr::select(
+              !dplyr::any_of(
+                c("fit", "se.fit")
+              )
+            )
+          
+          return(predicted_mod)
+        }
+      )
+  ) %>% 
+  dplyr::select(
+    vars, 
+    predicted_gam
+  ) %>% 
+  tidyr::unnest(predicted_gam) 
+
+
+data_plot_1k$vars <- 
+  factor(data_plot_1k$vars, 
+         levels = c(
+           "mpd",
+           "mntd")
+         )
+indices <- 
+  c(
+    `mpd` = "ses_MPD",
+    `mntd` = "ses_MNTD"
+    )
+
+plot_1k <- 
+  data_plot_1k %>% 
+  ggplot(
+    aes(
+      x = lat,
+      y = var,
+      group = period,
+      colour = period
+      )
+    ) +
+  ggplot2::theme_classic() +
+  ggplot2::geom_line(linewidth = 1) +
+  ggplot2::geom_ribbon(
+    aes(
+      ymin = lwr,
+      ymax = upr,
+      fill = period
+      ),
+    alpha = 1/8, 
+    colour = NA
+    ) + 
+  ggplot2::scale_color_gradient(
+    high = color_high_age, 
+    low = color_low_age,
+    trans = "reverse"
+    ) + 
+  ggplot2::scale_fill_gradient(
+    high = color_high_age,
+    low = color_low_age
+    ) +
+  ggplot2::facet_wrap(
+    ~ vars, 
+    scales = "free_y",
+    labeller = as_labeller(indices)
+    ) +
+  ggplot2::labs(
+    fill = "Period (cal yr BP)",
+    x = expression(
+      paste(
+        'Latitude ', (degree ~ N)
+        )
+      ),
+    y = "Estimate"
+    ) +
+  ggplot2::theme(
+    axis.title = element_text(
+      size = 14,
+      color = color_common
+      ),
+    axis.text = element_text(
+      size = 12, 
+      color = color_common
+      ),
+    strip.text.x = element_text(
+      size = 14
+      ),
+    legend.position = "bottom",
+    legend.background = element_rect(
+      fill = "transparent"
+      ),
+    legend.spacing.x = unit(0.75, "cm"),
+    legend.title = element_text(
+      size = 12
+    )
+  ) + 
+  ggplot2::guides(
+    colour = "none",
+    fill = guide_colorbar(
+      barheight = 1, 
+      barwidth = 7.5
+    )
+  )
+
+# Save plot ----
+ggsave(
+  plot_1k,
+  filename = "Outputs/Figure/GAM_1k_bin_201223.tiff",
+  dpi = 400,
+  width = 20,
+  height = 10,
+  units = "cm",
+  compress = "lzw"
+)
+
+#--------------------------------------------------------#
+# 6. Test of differences in slopes of models of different periods ----
 #--------------------------------------------------------#
 # Based on "https://fromthebottomoftheheap.net/2017/10/10/difference-splines-i/"
 
 # Make a new dataset to be predicted
 gam_mod_temporal_1k <- 
   readr::read_rds(
-    "Outputs/Data/v2_121023/Model_1k_period_271023.rds"
+    "Outputs/Data/Model_1k_period_201223.rds"
     )
 
 new_data <-
@@ -197,7 +344,8 @@ mod_mpd <-
 
 
 # Estimate the difference in the smooth term (slope) of the model between the groups
-# Where the confidence interval excludes zero, we might infer significant differences between a pairs of estimated smooths.
+# Where the confidence interval excludes zero, we might infer significant differences 
+# between a pairs of estimated smooths.
 diff_pattern_mpd <-
   gratia::difference_smooths(
     mod_mpd,
@@ -360,7 +508,7 @@ mpd_period_1000 <-
 
 ggplot2::ggsave(
   mpd_period_1000,
-  filename = "Outputs/Figure/v2_121023/MPD_diff_1000_no_bam_271023.tiff",
+  filename = "Outputs/Figure/MPD_slope_diff_1000_201223.tiff",
   dpi = 400,
   width = 40,
   height = 35,
@@ -452,7 +600,7 @@ mntd_period_1000 <-
     diff_pattern_mntd,
     aes(x = lat,
         y = diff)
-  ) +
+    ) +
   ggplot2::geom_ribbon(
     aes(
       ymin = lower,
@@ -532,172 +680,14 @@ mntd_period_1000 <-
 #--------------------------------------------------------#
 # Save plot ----
 #--------------------------------------------------------#
-
 ggplot2::ggsave(
   mntd_period_1000,
-  filename = "Outputs/Figure/v2_121023/MNTD_diff_1000_no_bam_271023.tiff",
+  filename = "Outputs/Figure//MNTD_slope_diff_1000_201223.tiff",
   dpi = 400,
   width = 40,
   height = 35,
   units = "cm",
   compress = "lzw"
-)
-
-#--------------------------------------------------------#
-# 6. Plot the models ----
-#--------------------------------------------------------#
-data_plot_1k <- 
-  gam_mod_temporal_1k %>% 
-  dplyr::mutate(
-    predicted_gam = 
-      purrr::map2(
-        .x = data, 
-        .y = gam_model,
-        .f = ~ {
-          data <- .x
-          new_data_gam <-
-            with(
-              data,
-              base::expand.grid(
-                lat = seq(
-                  min(lat), 
-                  max(lat), 
-                  by = 0.25
-                  ),
-                dataset_id = dataset_id[1],
-                age = mean(age),
-                period = seq(1000, 12000, by = 1000)
-                )
-              )
-          not_inlude <-
-            gratia::smooths(.y) %>%
-            str_subset(., "dataset_id|age")
-          crit <- qnorm((1 - 0.89) / 2, lower.tail = FALSE)
-          predicted_mod <-
-            new_data_gam %>%
-            dplyr::bind_cols(
-              predict(
-                .y,
-                newdata = new_data_gam,
-                type = "response",
-                se.fit = TRUE,
-                exclude = not_inlude
-                )
-              ) %>%
-            dplyr::mutate(
-              var = fit,
-              lwr = fit - (crit * se.fit),
-              upr = fit + (crit * se.fit)
-              ) %>%
-            dplyr::select(
-              !dplyr::any_of(
-                c("fit", "se.fit")
-                )
-              )
-          
-          return(predicted_mod)
-          }
-        )
-    ) %>% 
-  dplyr::select(
-    vars, 
-    predicted_gam
-    ) %>% 
-  tidyr::unnest(predicted_gam) 
-
-
-data_plot_1k$vars <- 
-  factor(data_plot_1k$vars, 
-         levels = c(
-           "mpd",
-           "mntd")
-         )
-indices <- 
-  c(
-    `mpd` = "ses_MPD",
-    `mntd` = "ses_MNTD"
-    )
-
-plot_1k <- 
-  data_plot_1k %>% 
-  ggplot(
-    aes(
-      x = lat,
-      y = var,
-      group = period,
-      colour = period
-      )
-    ) +
-  ggplot2::theme_classic() +
-  ggplot2::geom_line(linewidth = 1) +
-  ggplot2::geom_ribbon(
-    aes(
-      ymin = lwr,
-      ymax = upr,
-      fill = period
-      ),
-    alpha = 1/8, 
-    colour = NA
-    ) + 
-  ggplot2::scale_color_gradient(
-    high = color_high_age, 
-    low = color_low_age,
-    trans = "reverse"
-    ) + 
-  ggplot2::scale_fill_gradient(
-    high = color_high_age,
-    low = color_low_age
-    ) +
-  ggplot2::facet_wrap(
-    ~ vars, 
-    scales = "free_y",
-    labeller = as_labeller(indices)
-    ) +
-  ggplot2::labs(
-    fill = "Period (cal yr BP)",
-    x = expression(
-      paste(
-        'Latitude ', (degree ~ N)
-        )
-      ),
-    y = "Estimate") +
-  ggplot2::theme(
-    axis.title = element_text(
-      size = 14,
-      color = color_common
-      ),
-    axis.text = element_text(
-      size = 12, 
-      color = color_common
-      ),
-    strip.text.x = element_text(
-      size = 14
-      ),
-    legend.position = "bottom",
-    legend.background = element_rect(
-      fill = "transparent"
-      ),
-    legend.spacing.x = unit(0.75, "cm"),
-    legend.title = element_text(
-      size = 12
-      )
-    ) + 
-  ggplot2::guides(
-    colour = "none",
-    fill = guide_colorbar(
-      barheight = 1, 
-      barwidth = 7.5
-      )
-    )
-#--------------------------------------------------------#
-# Save plot ----
-#--------------------------------------------------------#
-ggsave(
-  plot_1k,
-  filename = "Outputs/Figure/v2_121023/GAM_1k_bin_no_bam_271023.tiff",
-  dpi = 400,
-  width = 20,
-  height = 10,
-  units = "cm",
-  compress = "lzw"
   )
+
+
