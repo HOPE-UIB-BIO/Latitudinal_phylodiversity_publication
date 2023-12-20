@@ -15,14 +15,14 @@ source("R/00_Config_file.R")
 #--------------------------------------------------------#
 # 2. Load the data ----
 #--------------------------------------------------------#
-data_filtered <- 
-  read_rds("Inputs/Data/data_for_main_analysis_121023.rds") 
+data_filtered_phylodiversity <- 
+  read_rds("Inputs/Data/data_for_main_analysis_191223.rds") 
 
 #--------------------------------------------------------#
 # 3. Filter the data to avoid marginal datasets ----
 #--------------------------------------------------------#
 data_filtered <-
-  data_filtered %>%
+  data_filtered_phylodiversity %>%
   dplyr::select(
     dataset_id,
     long,
@@ -58,8 +58,6 @@ data_gam <-
                 estimate) %>%
   tidyr::nest(data = -vars)  
 
-set.seed(2330)
-
 output_gam_pd <-
   data_gam %>%
   dplyr::mutate(
@@ -68,6 +66,7 @@ output_gam_pd <-
         .x = data, 
         .f = ~ {
         data <- .x
+        set.seed(2330)
         mod <-
           mgcv::gam(
             estimate ~
@@ -126,6 +125,7 @@ output_gam_pd <-
         
         crit <- qnorm((1 - 0.89) / 2, lower.tail = FALSE)
         
+        set.seed(2330)
         predicted_mod <-
           new_data_gam %>%
           dplyr::bind_cols(
@@ -158,7 +158,7 @@ output_gam_pd <-
 # Save GAM models ----
 #--------------------------------------------------------#
 write_rds(output_gam_pd,
-          file = "Outputs/Data/v2_121023/Overall_gam_lat_PD_271023.rds",
+          file = "Outputs/Data/Overall_gam_lat_PD_201223.rds",
           compress = "gz")
 
 
