@@ -496,7 +496,7 @@ ggplot2::ggsave(
 ggplot2::ggsave(
   final_composite_rev_x,
   filename = paste(
-    "Outputs/Figure/v2_121023/",
+    "Outputs/Figure/",
     "Holocene_wide_spatiotemporal_pattern_rev_x_201223.tiff",
     sep = ""
   ),
