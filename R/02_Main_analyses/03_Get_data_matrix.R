@@ -56,7 +56,7 @@ climate_matrix <-
 
   
 # Number of samples ----
-data_full <-
+data_filtered_phylodiversity <-
   readr::read_rds(
     paste(
       "Inputs/Data/",
@@ -78,7 +78,7 @@ blank_dat <-
     )
 
 n_samples <-
-  data_full %>%
+  data_filtered_phylodiversity %>%
   tidyr::unnest(phylo) %>%
   dplyr::filter(age > 0) %>%
   dplyr::select(lat, age) %>%
@@ -104,7 +104,7 @@ n_samples_matrix <-
 
 # Age uncertainty ----
 age_uncertainty <- 
-  data_full %>% 
+  data_filtered_phylodiversity %>% 
   dplyr::select(
     lat, 
     phylo
@@ -155,7 +155,7 @@ age_uncertainty_matrix <-
 # Import Holocene-wide phylogenetic metrics ----
 #----------------------------------------------------------#
 output_gam_pd <- 
-  readr::read_rds("Outputs/Data/v2_121023/Overall_gam_lat_PD_271023.rds") 
+  readr::read_rds("Outputs/Data/Overall_gam_lat_PD_201223.rds") 
 
 mpd_matrix <- 
   output_gam_pd[1,] %>% 
@@ -214,6 +214,6 @@ full_matrix <-
 #----------------------------------------------------------#
 readr::write_rds(
   full_matrix,
-  file = "Outputs/Data/v2_121023/Space_time_matrix_271023.rds",
+  file = "Outputs/Data/Space_time_matrix_201223.rds",
   compress = "gz"
   )
