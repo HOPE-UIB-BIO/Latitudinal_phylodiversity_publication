@@ -30,7 +30,12 @@ source_data <-
 # project, and data used here is just sourced from that.
 #--------------------------------------------------------#
 climate_data <- 
-  readr::read_rds("Inputs/Data/Chelsa_climate/data_climate_pred-2021-12-16.rds") %>% 
+  readr::read_rds(
+    paste(
+      "Inputs/Data/Chelsa_climate/",
+      "data_climate_pred-2021-12-16.rds",
+      sep = "")
+    ) %>% 
   dplyr::filter(dataset_id %in% unique(source_data$dataset_id)) %>% 
   dplyr::select(
     dataset_id, 
@@ -206,7 +211,7 @@ prec_winter_predicted <-
   )        
 
 mpd_predicted <-    
-  overall_gam_pd[1,]$predicted_gam[[1]] %>% 
+  output_gam_pd[1,]$predicted_gam[[1]] %>% 
   dplyr::select(
     lat, 
     age, 
@@ -214,7 +219,7 @@ mpd_predicted <-
   )  
 
 mntd_predicted <-    
-  overall_gam_pd[2,]$predicted_gam[[1]] %>% 
+  output_gam_pd[2,]$predicted_gam[[1]] %>% 
   dplyr::select(
     lat, 
     age, 
@@ -397,13 +402,13 @@ final_plot <-
     ncol = 2
   )
 ggplot2::ggsave(
-  final_plot,filename = "Outputs/Figure/v2_121023/MPD_MNTD_vs_climate_311023.tiff",
+  final_plot,filename = "Outputs/Figure/MPD_MNTD_vs_climate_211223.tiff",
   height = 15,
-  width = 15,
+  width = 20,
   units = "cm",
   dpi = 400,
   compression = "lzw"
-)
+  )
 
 
 

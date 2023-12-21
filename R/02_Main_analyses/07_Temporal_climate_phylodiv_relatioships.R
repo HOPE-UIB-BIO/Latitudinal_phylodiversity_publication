@@ -13,143 +13,103 @@
 source("R/00_Config_file.R")
 
 #--------------------------------------------------------#
-# 2. Load the data ----
+# 2. Load the source data ----
 #--------------------------------------------------------#
-data_full <- 
-  readr::read_rds(
-    paste(
-      "Inputs/Data/",
-      "data_for_main_analysis_121023.rds",
-      sep = ""
-    )
-  ) 
+source_data <- 
+  read_rds("Inputs/Data/source_data_191223.rds")
 
 #--------------------------------------------------------#
-# 3. Filter the datasets ----
-#--------------------------------------------------------#
-source_data_filtered <-
-  data_full %>%
-  dplyr::select(
-    dataset_id,
-    lat,
-    long,
-    phylodiversity_age_combined
-    ) %>%
-   tidyr::unnest(phylodiversity_age_combined) %>%
-  dplyr::filter(age > 0) %>%
-  dplyr::mutate(
-    age_uncertainty_index = 
-      mean(
-        abs(lower - upper)
-        ) / abs(lower - upper)
-    ) 
-
-#--------------------------------------------------------#
-# 4. Load the climate data predicted for each sample of the datasets ----
+# 3. Load the climate data predicted for each sample of the datasets ----
 #--------------------------------------------------------#
 climate_data <- 
-  readr::read_rds("Inputs/Data/Chelsa_climate/data_climate_pred-2021-12-16.rds") %>% 
-  dplyr::filter(dataset_id %in% source_data_filtered$dataset_id) %>% 
+  readr::read_rds(
+    paste(
+      "Inputs/Data/Chelsa_climate/",
+      "data_climate_pred-2021-12-16.rds",
+      sep = "")
+    ) %>% 
+  dplyr::filter(dataset_id %in% unique(source_data$dataset_id)) %>% 
   dplyr::select(
     dataset_id, 
     clim_data_pred
     ) %>% 
-  tidyr::unnest(clim_data_pred)
+  tidyr::unnest(clim_data_pred) %>% 
+  dplyr::select(-depth)
 
 #--------------------------------------------------------#
-# 5. Combine the climate data and filtered phylodiversity data ----
+# 4. Combine the climate data and filtered phylodiversity data ----
 #--------------------------------------------------------#
 combined_data <-
-  source_data_filtered %>%
-  dplyr::select(
-    dataset_id,
-    lat,
-    sample_id,
-    age_uncertainty_index,
-    ses_mpd = mpd_phylogeny_pool_abundance_wt,
-    ses_mntd = mntd_phylogeny_pool_abundance_wt
-    ) %>%
+  source_data %>%
   dplyr::inner_join(
     climate_data,
     by = c(
       "dataset_id", 
-      "sample_id"
+      "sample_id",
+      "age"
       )
-    ) %>%
-  dplyr::filter(age > 0) %>%
+    ) %>%  
   arrange(age) %>%
   dplyr::mutate(period = ceiling(age / 1000)) %>%
   dplyr::mutate(period = period * 1000) %>%
-  dplyr::mutate_at("dataset_id", as_factor) %>%
-  dplyr::mutate_at("period", as_factor)
+  dplyr::mutate_at("dataset_id", as_factor) %>% 
+  dplyr::mutate_at("period", as_factor) 
 
-#--------------------------------------------------------#
-# 6. Fit and plot the GAM models ----
-#--------------------------------------------------------#
-# A. MPD/MNTD ----
-data_gam_phylodiv <-
-  combined_data %>%
-  dplyr::select(dataset_id,
-                sample_id,
-                lat,
-                age,
-                age_uncertainty_index,
-                period,
-                ses_mpd,
-                ses_mntd
-                ) %>% 
+data_gam_phylodiversity <- 
+  combined_data %>% 
   tidyr::gather(
-    c(
-      ses_mpd,
-      ses_mntd),
+    c(mpd,
+      mntd),
     key = "vars",
-    value = "estimate"
+    value = "estimate",
     ) %>%
   dplyr::group_by(vars) %>%
   tidyr::nest() %>%
   dplyr::ungroup() 
 
-set.seed(2330)
-
+#--------------------------------------------------------#
+# 5. Fit the GAM models each of climate and phylodiversity ----
+#--------------------------------------------------------#
+# A. MPD/MNTD ----
 gam_mod_phylodiv <-
-  data_gam_phylodiv %>%
+  data_gam_phylodiversity %>%
   dplyr::mutate(
     gam_model =
       purrr::map(
         .x = data, 
         .f = ~ {
-        data <- .x
-        mod <-
-          mgcv::gam(
-            estimate ~
-              lat + 
-              s(lat, 
-                by = period, 
-                bs = 'tp',
-                m = 1) +
-              s(age, 
-                k = 10, 
-                bs = "tp") +
-              s(age,            
-               by = period, 
-               bs = 'tp',      
-               m = 1) +
-              s(dataset_id, 
-                k = 99, 
-                bs = 're') +
-              s(period, 
-                k = 12, 
-                bs = 'fs') +
-            ti(lat, age, 
-               by = period,
-               bs = c("tp", "tp")
-               ),
-            data = data,
-            method = "REML",
-            family = "gaussian",
-            weights = age_uncertainty_index,
-            control = gam.control(trace = TRUE, maxit = 200)
-          )
+          data <- .x
+          mod <-
+            mgcv::gam(
+              estimate ~
+                lat + 
+                s(lat, 
+                  by = period, 
+                  bs = 'tp',
+                  m = 1) +
+                s(age, 
+                  k = 10, 
+                  bs = "tp") +
+                s(age,            
+                  by = period, 
+                  bs = 'tp',      
+                  m = 1) +
+                s(dataset_id, 
+                  k = 99, 
+                  bs = 're') +
+                s(period, 
+                  k = 12, 
+                  bs = 'fs') +
+                ti(lat, age, 
+                   by = period,
+                   bs = c("tp", "tp")
+                ),
+              data = data,
+              method = "REML",
+              family = "gaussian",
+              weights = age_uncertainty_index,
+              control = gam.control(trace = TRUE, maxit = 200)
+            )
         }
       )
     )
@@ -180,8 +140,6 @@ data_gam_climate <-
   tidyr::nest() %>%
   dplyr::ungroup() 
 
-set.seed(2330)
-
 gam_mod_climate <-
   data_gam_climate %>%
   dplyr::mutate(
@@ -190,6 +148,7 @@ gam_mod_climate <-
         .x = data, 
         .f = ~ {
         data <- .x
+        set.seed(2468)
         mod <-
           mgcv::gam(
             estimate ~
@@ -226,11 +185,9 @@ gam_mod_climate <-
     )
 
 #--------------------------------------------------------#
-# 7. Test of differences in slopes of models of different periods ----
+# 6. Test of differences in slopes of models of different periods ----
 #--------------------------------------------------------#
 # Temporal variation in MPD and MNTD ----
-set.seed(2330)
-
 diff_pattern_phylodiv <-
   gam_mod_phylodiv %>%
   dplyr::mutate(
@@ -258,6 +215,7 @@ diff_pattern_phylodiv <-
         .x = gam_model,
         .y = new_data,
         .f = ~ {
+          set.seed(2468)
           diff_pattern <-
             gratia::difference_smooths(
               .x,
@@ -273,8 +231,6 @@ diff_pattern_phylodiv <-
     )
 
 # Temporal variation in climate ----
-set.seed(2330)
-
 diff_pattern_climate <-
   gam_mod_climate %>%
   dplyr::mutate(
@@ -302,6 +258,7 @@ diff_pattern_climate <-
         .x = gam_model,
         .y = new_data,
         .f = ~ {
+          set.seed(2468)
           diff_pattern <-
             gratia::difference_smooths(
               .x,
@@ -565,7 +522,7 @@ protest(
   permutations = 999,
   choises = c(1, 2)
   ) 
-# Procrustes Sum of Squares (m12 squared) 0.8508, Correlation in a symmetric Procrustes rotation: 0.3863, Significance: 0.001, Number of permutations: 999
+# Procrustes Sum of Squares (m12 squared) 0.852, Correlation in a symmetric Procrustes rotation: 0.3847, Significance: 0.001, Number of permutations: 999
 
 set.seed(2330)
 protest(
@@ -575,7 +532,7 @@ protest(
   permutations = 999,
   choises = c(1, 2)
   )
-# Procrustes Sum of Squares (m12 squared):0.6723, Correlation in a symmetric Procrustes rotation: 0.5725, Significance: 0.001, Number of permutations: 999
+# Procrustes Sum of Squares (m12 squared):0.6209, Correlation in a symmetric Procrustes rotation: 0.6157, Significance: 0.001, Number of permutations: 999
 
 set.seed(2330)
 protest(
@@ -585,7 +542,7 @@ protest(
   permutations = 999,
   choises = c(1, 2)
   )
-# Procrustes Sum of Squares (m12 squared): 0.9922, Correlation in a symmetric Procrustes rotation: 0.08808, Significance: 0.68, Number of permutations: 999
+# Procrustes Sum of Squares (m12 squared): 0.9977, Correlation in a symmetric Procrustes rotation: 0.04793, Significance: 0.927, Number of permutations: 999
 
 
 set.seed(2330)
@@ -596,7 +553,7 @@ protest(
   permutations = 999,
   choises = c(1, 2)
   ) 
-# Procrustes Sum of Squares (m12 squared): 0.7148, Correlation in a symmetric Procrustes rotation: 0.5340, Significance: 0.001, Number of permutations: 999
+# Procrustes Sum of Squares (m12 squared): 0.719, Correlation in a symmetric Procrustes rotation: 0.5301, Significance: 0.001, Number of permutations: 999
 
 set.seed(2330)
 protest(
@@ -606,7 +563,7 @@ protest(
   permutations = 999,
   choises = c(1, 2)
   )
-#Procrustes Sum of Squares (m12 squared): 0.6121, Correlation in a symmetric Procrustes rotation: 0.6229, Significance: 0.001, Number of permutations: 999
+#Procrustes Sum of Squares (m12 squared): 0.5512, Correlation in a symmetric Procrustes rotation: 0.67, Significance: 0.001, Number of permutations: 999
 
 set.seed(2330)
 protest(
@@ -616,7 +573,7 @@ protest(
   permutations = 999,
   choises = c(1, 2)
   )
-# Procrustes Sum of Squares  0.9989, Correlation in a symmetric Procrustes rotation: 0.0330, Significance: 0.982, Number of permutations: 999
+# Procrustes Sum of Squares:  1, Correlation in a symmetric Procrustes rotation: 0.003488, Significance: 1, Number of permutations: 999
 
 procrustes_summary <- 
   tibble("Matrix_1 (PCA)" = c(
@@ -632,28 +589,28 @@ procrustes_summary <-
       "prec_winter"
       ),
     "Procrustes Sum of Squares (m12 squared)" = c(
-      0.8508,
-      0.6723,
-      0.9922,
-      0.7148,
-      0.6121,
-      0.9989
+      0.852,
+      0.6209,
+      0.9977,
+      0.719,
+      0.5512,
+      1
       ),
     "Correlation in a symmetric Procrustes rotation" = c(
-      0.3863,
-      0.5725,
-      0.0880,
-      0.5340,
-      0.6229,
-      0.0330
+      0.3847,
+      0.6157,
+      0.04793,
+      0.5301,
+      0.67,
+      0.0034
       ),
     "Significance" = c(
       0.001,
       0.001,
-      0.68,
+      0.927,
       0.001,
       0.001,
-      0.982
+      1
       ),
     "Number of permutations" = c(
       rep(999, 6)
@@ -662,5 +619,5 @@ procrustes_summary <-
 
 write_csv(
   procrustes_summary,
-  file = "Outputs/Table/v2_121023/Procrustes_test_metrics_climate_271023.csv"
+  file = "Outputs/Table/Procrustes_test_metrics_climate_211223.csv"
   )
