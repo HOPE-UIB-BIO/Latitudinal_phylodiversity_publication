@@ -3,7 +3,7 @@
 # Latitudinal gradients in the phylogenetic assembly of angiosperms in Asia 
 # during the Holocene
 
-# Correlation between phylogenetic dispersion (PD) and climatic variables ----
+# Relationship between phylogenetic dispersion (PD) and climatic variables ----
 #                          
 #----------------------------------------------------------#
 
@@ -15,78 +15,43 @@ source("R/00_Config_file.R")
 #--------------------------------------------------------#
 # 2. Load Holocene-wide latitudinal model of PD ----
 #--------------------------------------------------------#
-overall_gam_pd <- 
-  read_rds("Outputs/Data/v2_121023/Overall_gam_lat_PD_271023.rds")
+output_gam_pd <- 
+  read_rds("Outputs/Data/Overall_gam_lat_PD_201223.rds")
 
 #--------------------------------------------------------#
-# 3. Load the data ----
+# 3. Load the source data ----
 #--------------------------------------------------------#
-# see comment before, would make one data prep in the start, and just load that data instead of repeating the same data filtering step at each script
-
-# data_full <- 
-#   readr::read_rds(
-#     paste(
-#       "Inputs/Data/",
-#       "data_for_main_analysis_121023.rds",
-#       sep = ""
-#     )
-#   ) 
+source_data <- 
+  read_rds("Inputs/Data/source_data_191223.rds")
 
 #--------------------------------------------------------#
-# 4. Filter the data ----
-#--------------------------------------------------------#
-
-
-# source_data_filtered <-
-#   data_full %>%
-#   dplyr::select(
-#     dataset_id,
-#     lat,
-#     phylodiversity_age_combined) %>%
-#   tidyr::unnest(phylodiversity_age_combined) %>%
-#   dplyr::filter(age > 0 & age < 12000) %>%
-#   dplyr::mutate(
-#     age_uncertainty_index =
-#       mean(
-#         abs(lower - upper)
-#       ) / abs(lower - upper)
-#   )
-
-#--------------------------------------------------------#
-# 5. Load the climate data predicted for each sample of the datasets ----
+# 4. Load the climate data predicted for each sample of the datasets ----
+# Climatic data was predicted for the global fossil pollen data of the 
+# project, and data used here is just sourced from that.
 #--------------------------------------------------------#
 climate_data <- 
   readr::read_rds("Inputs/Data/Chelsa_climate/data_climate_pred-2021-12-16.rds") %>% 
-  dplyr::filter(dataset_id %in% source_data_filtered$dataset_id) %>% 
+  dplyr::filter(dataset_id %in% unique(source_data$dataset_id)) %>% 
   dplyr::select(
     dataset_id, 
     clim_data_pred
-  ) %>% 
-  unnest(clim_data_pred) %>% 
+    ) %>% 
+  tidyr::unnest(clim_data_pred) %>% 
   dplyr::select(-depth)
 
 #--------------------------------------------------------#
-# 6. Combine the climate data and filtered phylodiversity data ----
+# 5. Combine the climate data and filtered phylodiversity data ----
 #--------------------------------------------------------#
 combined_data <-
-  source_data_filtered %>%
-  dplyr::select(
-    dataset_id,
-    sample_id,
-    lat,
-    age,
-    age_uncertainty_index,
-    ses_mpd = mpd_phylogeny_pool_abundance_wt,
-    ses_mntd = mntd_phylogeny_pool_abundance_wt
-  ) %>%
+  source_data %>%
   dplyr::inner_join(
     climate_data,
     by = c(
       "dataset_id", 
       "sample_id",
       "age"
-    )
-  ) 
+      )
+    ) 
 #--------------------------------------------------------#
 # 6. Fit the latitudinal GAM models of climate ----
 #--------------------------------------------------------#
@@ -101,21 +66,20 @@ data_gam <-
     temp_cold,
     prec_summer,
     prec_winter
-  ) %>% 
+    ) %>% 
   dplyr::mutate_at("dataset_id", as.factor) %>% 
   tidyr::gather(
     c(
       temp_cold,
       prec_summer,
       prec_winter
-    ),
+      ),
     key = "vars",
     value = "climate") %>%
   dplyr::group_by(vars) %>%
   tidyr::nest() %>%
   dplyr::ungroup() 
 
-set.seed(2330)
 gam_mod_climate <-
   data_gam %>%
   dplyr::mutate(
@@ -124,29 +88,30 @@ gam_mod_climate <-
         .x = data,
         .f = ~ {
           data <- .x
+          set.seed(246)
           mod_mpd_climate <-
             mgcv::gam(
               climate ~
                 s(lat, 
                   k = 10, 
                   bs = 'tp'
-                ) +
+                  ) +
                 s(age, 
                   k = 10, 
                   bs = 'tp'
-                ) +
+                  ) +
                 s(age, 
                   by = dataset_id, 
                   bs = 'tp',      
                   m = 1
-                ) +
+                  ) +
                 s(dataset_id, 
                   k = 99, 
                   bs = 're'
-                ) +
+                  ) +
                 ti(lat, age, 
                    bs = c('tp', 'tp')
-                ),
+                   ),
               data = data,
               method = "REML",
               family = "gaussian",
@@ -154,7 +119,7 @@ gam_mod_climate <-
               control = gam.control(
                 trace = TRUE, 
                 maxit = 200
-              )
+                )
             )
           return(mod_mpd_climate)
         }
@@ -178,6 +143,7 @@ gam_mod_climate <-
           str_subset(.,c("dataset_id"))
         crit <- qnorm((1 - 0.89) / 2, lower.tail = FALSE)
         
+        set.seed(246)
         predicted_mod <-
           new_data %>%
           dplyr::bind_cols(
@@ -210,9 +176,8 @@ gam_mod_climate <-
 #--------------------------------------------------------#
 readr::write_rds(
   gam_mod_climate,
-  file = "Outputs/Data/v2_121023/GAM_latitude_climate_311013.rds"
-  
-)
+  file = "Outputs/Data/GAM_latitude_climate_201223.rds"
+  )
 
 #--------------------------------------------------------#
 # 8. Plot the models (predicted values of PD vs predicted values of climate) ----

@@ -14,7 +14,8 @@ source("R/00_Config_file.R")
 data_climate <-
   readr::read_rds("Inputs/Data/Chelsa_climate/Chelsa_climate_whole_area.rds") %>%
   dplyr::group_by(data_id) %>%
-  tidyr::nest()
+  tidyr::nest() %>% 
+  dplyr::ungroup()
 
 data_meta <-
   base::expand.grid(
@@ -56,20 +57,8 @@ climate_matrix <-
 
   
 # Number of samples ----
-data_filtered_phylodiversity <-
-  readr::read_rds(
-    paste(
-      "Inputs/Data/",
-      "data_for_main_analysis_121023.rds",
-      sep = ""
-      )
-    ) %>%
-  dplyr::select(
-    dataset_id,
-    long,
-    lat,
-    phylo = phylodiversity_age_combined
-    )
+source_data <- 
+  read_rds("Inputs/Data/source_data_191223.rds")
 
 blank_dat <- 
   base::expand.grid(
@@ -78,9 +67,7 @@ blank_dat <-
     )
 
 n_samples <-
-  data_filtered_phylodiversity %>%
-  tidyr::unnest(phylo) %>%
-  dplyr::filter(age > 0) %>%
+  source_data %>%
   dplyr::select(lat, age) %>%
   dplyr::arrange(lat) %>%
   dplyr::mutate(
@@ -104,27 +91,18 @@ n_samples_matrix <-
 
 # Age uncertainty ----
 age_uncertainty <- 
-  data_filtered_phylodiversity %>% 
+  source_data %>% 
   dplyr::select(
     lat, 
-    phylo
+    age,
+    upper,
+    lower,
+    age_uncertainty_index
     ) %>% 
-  tidyr::unnest(phylo) %>% 
-  dplyr::select(
-    lat, 
-    age, 
-    upper, 
-    lower
-    ) %>% 
-  dplyr::filter(age > 0) %>%
-  dplyr::mutate(
+   dplyr::mutate(
     age_error = abs(
       lower - upper
       )
-    ) %>% 
-  dplyr::mutate(
-    age_uncertainty_index = 
-      mean(age_error)/age_error
     ) %>% 
   dplyr::arrange(lat) %>%
   dplyr::mutate(

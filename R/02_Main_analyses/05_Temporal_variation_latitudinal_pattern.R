@@ -15,39 +15,22 @@ source("R/00_Config_file.R")
 #--------------------------------------------------------#
 # 2. Load the data ----
 #--------------------------------------------------------#
-data_filtered_phylodiversity <- 
-  readr::read_rds(
-    "Inputs/Data/data_for_main_analysis_191223.rds"
-    )
+source_data <- 
+  read_rds("Inputs/Data/source_data_191223.rds")
 
 #--------------------------------------------------------#
 # 3. Fit and plot the GAM models ----
 #--------------------------------------------------------#
 # 1000-year time bin ----
 data_filtered <- 
-  data_filtered_phylodiversity %>%
-  dplyr::select(
-    dataset_id,
-    lat,
-    phylodiversity_combined
-    ) %>% 
-  tidyr::unnest(phylodiversity_combined) %>%
-  dplyr::filter(age > 0) %>%
-  dplyr::mutate(
-    age_uncertainty_index =
-      mean(
-        abs(lower - upper)
-        ) / abs(lower - upper)
-    ) %>% 
+  source_data %>%
   dplyr::arrange(age) %>% 
   dplyr::mutate(
     period = 
       ceiling(age / 1000)
     ) %>%
   dplyr::mutate(period = period * 1000) %>%
-  dplyr::mutate_at("dataset_id", as_factor) %>% 
   dplyr::mutate_at("period", as_factor) 
-
 
 data_gam_period <-
   data_filtered %>%
@@ -122,7 +105,6 @@ gam_mod_temporal_1k <-
 #--------------------------------------------------------#
 # Save model ----
 #--------------------------------------------------------#
-
 readr::write_rds(
   gam_mod_temporal_1k,
   file = "Outputs/Data/Model_1k_period_201223.rds",

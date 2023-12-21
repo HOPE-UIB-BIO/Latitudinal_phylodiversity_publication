@@ -13,49 +13,29 @@
 source("R/00_Config_file.R")
 
 #--------------------------------------------------------#
-# 2. Load the data ----
+# 2. Load the source data ----
 #--------------------------------------------------------#
-data_filtered_phylodiversity <- 
-  read_rds("Inputs/Data/data_for_main_analysis_191223.rds") 
+source_data <- 
+  read_rds("Inputs/Data/source_data_191223.rds") 
 
 #--------------------------------------------------------#
-# 3. Filter the data to avoid marginal datasets ----
-#--------------------------------------------------------#
-data_filtered <-
-  data_filtered_phylodiversity %>%
-  dplyr::select(
-    dataset_id,
-    long,
-    lat,
-    phylodiversity_combined
-    ) %>%
-  dplyr::mutate_at(
-    "dataset_id", 
-    as_factor
-    ) %>%
-  tidyr::unnest(phylodiversity_combined) %>%
-  dplyr::filter(age > 0) %>% 
-  dplyr::mutate(
-    age_uncertainty_index = 
-                  mean(
-                    abs(lower - upper)
-                    ) / abs(lower - upper)
-    )
-
-#--------------------------------------------------------#
-# 4. Fit the GAM models ----
+# 3. Fit the GAM models ----
 #--------------------------------------------------------#
 data_gam <-
-  data_filtered %>%
-  tidyr::pivot_longer(mpd:mntd, 
-                      names_to = "vars", 
-                      values_to = "estimate") %>%
-  dplyr::select(dataset_id, 
-                lat, 
-                age, 
-                age_uncertainty_index,
-                vars, 
-                estimate) %>%
+  source_data %>%
+  tidyr::pivot_longer(
+    mpd:mntd, 
+    names_to = "vars",
+    values_to = "estimate"
+    ) %>%
+  dplyr::select(
+    dataset_id,
+    lat, 
+    age, 
+    age_uncertainty_index,
+    vars, 
+    estimate
+    ) %>%
   tidyr::nest(data = -vars)  
 
 output_gam_pd <-
@@ -237,7 +217,7 @@ plot_gam <-
             paste(
             'Latitude ', (degree ~ N)
             )
-          ),
+            ),
           y = paste(.y)
           ) +
         
@@ -267,7 +247,7 @@ plot_gam <-
             1, 0, 0, 0.25, 
             "cm"
             )  #t, r, b, l
-        ) +
+          ) +
         ggplot2::guides(
           colour = guide_colorbar(
           barheight = 3,
@@ -438,7 +418,7 @@ final_fig_mpd_rev_x <-
     labels = c("(a)", "(b)"),
     hjust = -0.4,
     vjust = 2.5
-  )
+    )
 
 
 final_fig_mntd <-
@@ -461,7 +441,7 @@ final_fig_mntd_rev_x <-
     labels = c("(c)", "(d)"),
     hjust = -0.4,
     vjust = 2.5
-  )
+    )
 
 final_composite <- 
   ggpubr::ggarrange(
@@ -477,7 +457,7 @@ final_composite_rev_x <-
     final_fig_mntd_rev_x,
     ncol = 2,
     nrow = 1
-  )
+    )
 
 ggplot2::ggsave(
   final_composite,
@@ -485,7 +465,7 @@ ggplot2::ggsave(
     "Outputs/Figure/",
     "Holocene_wide_spatiotemporal_pattern_201223.tiff",
     sep = ""
-  ),
+    ),
   height = 20,
   width = 20,
   units = "cm",
@@ -499,13 +479,13 @@ ggplot2::ggsave(
     "Outputs/Figure/",
     "Holocene_wide_spatiotemporal_pattern_rev_x_201223.tiff",
     sep = ""
-  ),
+    ),
   height = 20,
   width = 20,
   units = "cm",
   dpi = 400,
   compression = "lzw"
-)
+  )
 
 #---------------------------------------------------#
 # 5.3 Plot figure with actual values (points in the background) ----
@@ -619,7 +599,7 @@ gam_curve_mpd <-
   labs(
     y = "ses_MPD",
     colour = "Time (cal yr BP)"
-  )
+    )
 
 
 gam_curve_mntd <- 
@@ -627,7 +607,7 @@ gam_curve_mntd <-
   labs(
     y = "ses_MNTD",
     colour = "Time (cal yr BP)"
-  )
+    )
 
 # 5.4 Plot the model temporally ----
 plot_gam_temporal <-
@@ -650,7 +630,7 @@ plot_gam_temporal <-
         aes(
           x = age,
           y = var
-        ),
+          ),
         data = ..2
         ) +
         ggplot2::geom_point(

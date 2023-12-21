@@ -189,3 +189,33 @@ readr::write_rds(
   file = "Inputs/Data/data_for_main_analysis_191223.rds",
   compress = "gz"
   )
+
+#-------------------------------------------------#
+# Make a concise source data for later analyses and save it  ----
+#-------------------------------------------------#
+source_data <- 
+  data_filtered_phylodiversity %>% 
+  dplyr::select(
+    dataset_id,
+    long,
+    lat,
+    phylodiversity_combined
+    ) %>%
+  dplyr::mutate_at(
+    "dataset_id", 
+    as_factor
+    ) %>%
+  tidyr::unnest(phylodiversity_combined) %>%
+  dplyr::filter(age > 0) %>% 
+  dplyr::mutate(
+    age_uncertainty_index = 
+      mean(
+        abs(lower - upper)
+        ) / abs(lower - upper)
+    )
+
+readr::write_rds(
+  source_data,
+  file = "Inputs/Data/source_data_191223.rds",
+  compress = "gz"
+  )
