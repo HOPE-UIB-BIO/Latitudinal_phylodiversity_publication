@@ -95,9 +95,21 @@ final_tree <- ape::drop.tip(pruned_tree_2, drop_list) # 148 families
 # Load the regional tree for further analyses ----
 # No need to re-run the code above every time!
 #-----------------------------------------------#
+cl <- parallel::detectCores()
+cluster <- multidplyr::new_cluster(cl - 1)
+multidplyr::cluster_library(cluster, "tidyverse")
+multidplyr::cluster_library(cluster, "ape")
+multidplyr::cluster_library(cluster, "picante")
+
+# copy custom function to each cluster
+multidplyr::cluster_copy(cluster, "get_phylogenetic_diversity") 
+
 set.seed(1234)
 phylo_div <-
   dat_harmonised_filtered_1 %>%
+  dplyr::filter(!long < 75 & !long > 125) %>%
+  dplyr::filter(!lat < 25 & !lat > 66) %>%    # 99 records
+  multidplyr::partition(cluster) %>% 
   dplyr::mutate(
     phylogenetic_diversity_mpd =
       purrr::map2(
@@ -127,10 +139,11 @@ phylo_div <-
           runs = 9999
           )
         )
-    ) 
+    ) %>% 
+  collect()
 
 #-------------------------------------------------#
-# Save the data of all sites ----
+# Save the output ----
 #-------------------------------------------------#
 readr::write_rds(
   phylo_div, 
@@ -143,8 +156,6 @@ readr::write_rds(
 #-------------------------------------------------#
 data_filtered_phylodiversity <- 
   phylo_div %>% 
-  dplyr::filter(!long < 75 & !long > 125) %>%
-  dplyr::filter(!lat < 25 & !lat > 66) %>%  # 99 records
   dplyr::mutate(
     phylodiversity_combined = purrr::pmap(
       list(
@@ -160,13 +171,13 @@ data_filtered_phylodiversity <-
             upper, 
             lower
             ) %>%
-          dplyr::left_join(..2 %>% 
+          dplyr::inner_join(..2 %>%   
                              dplyr::select(
                                sample_id, 
                                mpd.obs.z
                                ),
                            by = "sample_id") %>%
-          dplyr::left_join(..3 %>% 
+          dplyr::inner_join(..3 %>%     
                              dplyr::select(
                                sample_id, 
                                mntd.obs.z
@@ -180,7 +191,7 @@ data_filtered_phylodiversity <-
       }
     )
   ) 
-        
+
 #-------------------------------------------------#
 # Save the filtered data  ----
 #-------------------------------------------------#

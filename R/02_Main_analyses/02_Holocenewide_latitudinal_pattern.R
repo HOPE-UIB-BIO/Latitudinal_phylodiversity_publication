@@ -145,7 +145,6 @@ write_rds(output_gam_pd,
 #--------------------------------------------------------#
 # Extract and save summary of GAM models  ----
 #--------------------------------------------------------#
-
 output_gam_pd <- 
   read_rds("Outputs/Data/Overall_gam_lat_PD_201223.rds") 
 

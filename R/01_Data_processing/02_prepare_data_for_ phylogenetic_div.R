@@ -48,8 +48,7 @@ dat_harmonised <-
                             "_280923",
                             ".csv", 
                             sep = ""
-                            ),
-                          show_col_types = FALSE
+                            )
                           )
                       message(
                         msg = paste0(
@@ -236,16 +235,15 @@ dat_harmonised_filtered_1 <-
     orig_pollen_percentage,
     source_of_data
   )
-        
 
-write_rds(dat_harmonised_filtered_1, 
-          file = paste(
-            "Inputs/Data/",
-            "data_processed_for_",
-            "phylodiversity_estimation_191223.rds",
-            sep = ""
-            ),
-          compress = "gz")
+write_rds(
+  dat_harmonised_filtered_1, 
+  file = paste(
+    "Inputs/Data/",
+    "data_processed_for_",
+    "phylodiversity_estimation_191223.rds",
+    sep = ""
+    ),
+  compress = "gz"
+  )
 
-
-  
