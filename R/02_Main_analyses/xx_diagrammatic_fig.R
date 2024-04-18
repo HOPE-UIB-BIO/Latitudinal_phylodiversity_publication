@@ -107,7 +107,8 @@ plot_gam_temporal <-
         .x %>%
         dplyr::select(-dataset_id) %>%
         dplyr::group_by(age) %>%
-        dplyr::summarise_all(., mean)
+        dplyr::summarise_all(., mean) 
+        
       ggplot2::ggplot(
         aes(
           x = age,
@@ -165,7 +166,7 @@ final_fig_mpd_rev_x <-
     gam_curve_mpd_temporal_rev_x,
     ncol = 2,
     nrow = 1,
-    labels = c("(a)", "(b)"),
+    labels = c("(A)", "(B)"),
     font.label = list(size = 20),
     hjust = -2.5,
     vjust = 13

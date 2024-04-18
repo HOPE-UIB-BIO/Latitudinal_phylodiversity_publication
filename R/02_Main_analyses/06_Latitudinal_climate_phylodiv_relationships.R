@@ -267,9 +267,11 @@ predicted_climate_pd$climate <-
     )
   )
 
+
+# plots_mpd
 dat_label <- 
   data.frame(
-    label = c("(a)", "(b)", "(c)"),
+    label = c("(A)", "(B)", "(C)"),
     climate   = c("temp_cold", "prec_summer", "prec_winter")
   ) %>% 
   dplyr::mutate_at("label", as.factor)
@@ -329,11 +331,11 @@ plots_mpd <-
     )
   ) 
 
-plots_mpd
 
+#plots_mntd
 dat_label <- 
   data.frame(
-    label = c("(d)", "(e)", "(f)"),
+    label = c("(D)", "(E)", "(F)"),
     climate   = c("temp_cold", "prec_summer", "prec_winter")
   ) %>% 
   dplyr::mutate_at("label", as.factor)
@@ -393,7 +395,6 @@ plots_mntd <-
     )
   ) 
 
-plots_mntd
 
 final_plot <- 
   ggpubr::ggarrange(

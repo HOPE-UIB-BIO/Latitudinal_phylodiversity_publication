@@ -463,7 +463,7 @@ mpd_period_1000 <-
         'Latitude ', (degree ~ N)
         )
       ),
-    y = 'Difference in latitudinal trends of ses_MPD'
+    y = 'Difference in latitudinal trends of ses_MPD for every 1000 years'
     ) + 
   ggplot2::theme_classic() +
   ggplot2::theme(
@@ -636,7 +636,7 @@ mntd_period_1000 <-
         'Latitude ', (degree ~ N)
         )
       ),
-    y = 'Difference in latitudinal trends of ses_MNTD'
+    y = 'Difference in latitudinal trends of ses_MNTD for every 1000 years'
     ) + 
   ggplot2::theme_classic() +
   ggplot2::theme(

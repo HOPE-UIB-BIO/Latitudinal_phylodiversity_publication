@@ -140,7 +140,7 @@ final_n_samples <-
     plot_n_samples,
     ncol = 2,
     nrow = 1,
-    labels = c("(a)", "(b)")
+    labels = c("(A)", "(B)")
     )
 
 
@@ -273,7 +273,7 @@ final_age_error <-
     plot_age_error,
     ncol = 2,
     nrow = 1,
-    labels = c("(a)", "(b)")
+    labels = c("(A)", "(B)")
     )
 
 # Save final plot of age uncertainty ----
@@ -1335,7 +1335,7 @@ final_figure <-
     final_prec_summer, 
     final_prec_winter, 
     nrow = 5,
-    labels = c("(a)", "(b)", "(c)", "(d)", "(e)"),
+    labels = c("(A)", "(B)", "(C)", "(D)", "(E)"),
     hjust = -2,
     vjust = 1)
 

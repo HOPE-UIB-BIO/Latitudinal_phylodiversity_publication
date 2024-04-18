@@ -404,7 +404,7 @@ final_fig_mpd <-
     gam_curve_mpd_temporal,
     ncol = 1,
     nrow = 2,
-    labels = c("(a)", "(b)"),
+    labels = c("(A)", "(B)"),
     hjust = -0.4,
     vjust = 2.5
     )
@@ -414,7 +414,7 @@ final_fig_mpd_rev_x <-
     gam_curve_mpd_temporal_rev_x,
     ncol = 1,
     nrow = 2,
-    labels = c("(a)", "(b)"),
+    labels = c("(A)", "(B)"),
     hjust = -0.4,
     vjust = 2.5
     )
@@ -426,7 +426,7 @@ final_fig_mntd <-
     gam_curve_mntd_temporal,
     ncol = 1,
     nrow = 2,
-    labels = c("(c)", "(d)"),
+    labels = c("(C)", "(D)"),
     hjust = -0.4,
     vjust = 2.5
     )
@@ -437,7 +437,7 @@ final_fig_mntd_rev_x <-
     gam_curve_mntd_temporal_rev_x,
     ncol = 1,
     nrow = 2,
-    labels = c("(c)", "(d)"),
+    labels = c("(C)", "(D)"),
     hjust = -0.4,
     vjust = 2.5
     )
@@ -760,7 +760,7 @@ final_fig_mpd <-
     gam_curve_mpd_temporal,
     ncol = 1,
     nrow = 2,
-    labels = c("(a)", "(b)"),
+    labels = c("(A)", "(B)"),
     hjust = -0.4,
     vjust = 2.5
   )
@@ -771,7 +771,7 @@ final_fig_mpd_rev_x <-
     gam_curve_mpd_temporal_rev_x,
     ncol = 1,
     nrow = 2,
-    labels = c("(a)", "(b)"),
+    labels = c("(A)", "(B)"),
     hjust = -0.4,
     vjust = 2.5
   )
@@ -782,7 +782,7 @@ final_fig_mntd <-
     gam_curve_mntd_temporal,
     ncol = 1,
     nrow = 2,
-    labels = c("(c)", "(d)"),
+    labels = c("(C)", "(D)"),
     hjust = -0.4,
     vjust = 2.5
   )
@@ -792,7 +792,7 @@ final_fig_mntd_rev_x <-
     gam_curve_mntd_temporal_rev_x,
     ncol = 1,
     nrow = 2,
-    labels = c("(c)", "(d)"),
+    labels = c("(C)", "(D)"),
     hjust = -0.4,
     vjust = 2.5
   )
