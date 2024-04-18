@@ -417,9 +417,12 @@ mpd_period_1000 <-
       ymin = lower,
       ymax = upper
       ),
-    alpha = 0.2
+    alpha = 0.15
     ) +
-  ggplot2::geom_line() +
+  ggplot2::geom_line(
+    color = "#0066CC",
+    linewidth = 1
+  ) +
   lemon::facet_rep_grid(
     level_2 ~ level_1,
     scales = "free_y"
@@ -428,7 +431,7 @@ mpd_period_1000 <-
     yintercept = 0,
     linetype = "dashed",
     color = "red",
-    linewidth = 0.5
+    linewidth = 0.75
     ) +
   geom_rect(data = plus_mpd,
             aes(
@@ -438,8 +441,8 @@ mpd_period_1000 <-
               ymax = Inf,
               linewidth = 0.1
             ),
-            fill = "#0066CC",
-            alpha = 0.3,
+            fill = "#E69F00",
+            alpha = 0.4,
             inherit.aes = FALSE
             ) +
   geom_rect(data = minus_mpd,
@@ -450,8 +453,8 @@ mpd_period_1000 <-
               ymax = Inf,
               linewidth = 0.1
               ),
-            fill = "#0066CC",
-            alpha = 0.3,
+            fill = "#E69F00",
+            alpha = 0.4,
             inherit.aes = FALSE
             ) +
   ggplot2::labs(
@@ -466,14 +469,14 @@ mpd_period_1000 <-
   ggplot2::theme(
     legend.position = "none",
     strip.text.x = element_text(
-      size = 16
+      size = 23
       ),
     strip.text.y = element_text(
-      size = 16
+      size = 23
       ),
     axis.text = element_text(
       color = color_common, 
-      size = 13
+      size = 20
       ),
     axis.text.x = element_text(
       angle = 45,
@@ -481,11 +484,11 @@ mpd_period_1000 <-
       ),
     axis.title = element_text(
       color = color_common,
-      size = 22
+      size = 30
       ),
     panel.border = element_blank(), 
     axis.line = element_line(),
-    panel.spacing = unit(-0.75, "lines")
+    panel.spacing = unit(-2, "lines")
     )
 
 ggplot2::ggsave(
@@ -588,9 +591,11 @@ mntd_period_1000 <-
       ymin = lower,
       ymax = upper
       ),
-    alpha = 0.2
+    alpha = 0.15
     ) +
-  ggplot2::geom_line() +
+  ggplot2::geom_line(color = "#0066CC",
+                     linewidth = 1
+                     ) +
   lemon::facet_rep_grid(
     level_2 ~ level_1,
     scales = "free_y"
@@ -609,8 +614,8 @@ mntd_period_1000 <-
                 ymax = Inf,
                 linewidth = 0.1
               ),
-              fill = "#0066CC",
-              alpha = 0.3,
+              fill = "#E69F00",
+              alpha = 0.4,
               inherit.aes = FALSE
               ) +
   geom_rect(data = minus,
@@ -621,8 +626,8 @@ mntd_period_1000 <-
               ymax = Inf,
               linewidth = 0.1
             ),
-            fill = "#0066CC",
-            alpha = 0.3,
+            fill = "#E69F00",
+            alpha = 0.4,
             inherit.aes = FALSE
             ) +
   ggplot2::labs(
@@ -637,14 +642,14 @@ mntd_period_1000 <-
   ggplot2::theme(
     legend.position = "none",
     strip.text.x = element_text(
-      size = 16
+      size = 23
       ),
     strip.text.y = element_text(
-      size = 16
+      size = 23
       ),
     axis.text = element_text(
       color = color_common,
-      size = 13
+      size = 20
       ),
     axis.text.x = element_text(
       angle = 45, 
@@ -652,11 +657,11 @@ mntd_period_1000 <-
       ),
     axis.title = element_text(
       color = color_common, 
-      size = 22
+      size = 30
       ),
     panel.border = element_blank(), 
     axis.line = element_line(),
-    panel.spacing = unit(-0.75, "lines")
+    panel.spacing = unit(-2, "lines")
     )
 
 #--------------------------------------------------------#
