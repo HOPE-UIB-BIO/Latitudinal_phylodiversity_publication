@@ -202,6 +202,7 @@ prec_summer_predicted <-
     age, 
     prec_summer = var
   )
+
 prec_winter_predicted <- 
   gam_mod_climate[3,]$predicted_mod[[1]] %>% 
   dplyr::select(
@@ -313,14 +314,12 @@ plots_mpd <-
     size = 5
   ) + 
   ggplot2::theme_classic() +
-  ggplot2::labs(
-    x = "Climate"
-  ) +
   ggplot2::theme(
     axis.title = element_text(
       size = 14,
       color = color_common
     ),
+    axis.title.x = element_blank(),
     axis.text = element_text(
       size = 12,
       color = color_common
@@ -377,14 +376,12 @@ plots_mntd <-
     size = 5
   ) + 
   ggplot2::theme_classic() +
-  ggplot2::labs(
-    x = "Climate"
-  ) +
   ggplot2::theme(
     axis.title = element_text(
       size = 14,
       color = color_common
     ),
+    axis.title.x = element_blank(),
     axis.text = element_text(
       size = 12,
       color = color_common
@@ -402,8 +399,15 @@ final_plot <-
     plots_mntd, 
     ncol = 2
   )
+to_save <- 
+  annotate_figure(final_plot, 
+                  bottom = textGrob("Climate",
+                                    gp = gpar(cex = 1.25)
+                                    )
+                  )
 ggplot2::ggsave(
-  final_plot,filename = "Outputs/Figure/MPD_MNTD_vs_climate_211223.tiff",
+  to_save,
+  filename = "Outputs/Figure/MPD_MNTD_vs_climate_211223.tiff",
   height = 15,
   width = 20,
   units = "cm",
