@@ -1,12 +1,16 @@
+#---------------------------------------------------------------------------------#
+#
+# Latitudinal gradients in the phylogenetic assembly of angiosperms in Asia during 
+#                                the Holocene
+#
+#                             Bhatta et al. 2024
+#
+#---------------------------------------------------------------------------------#
+
 #------------------------------------------#
-
-# Latitudinal gradients in the phylogenetic assembly of angiosperms in Asia 
-# during the Holocene
-
 # Process family level phylogeny of angiosperms from "Ramírez-Barahona et al. 
 # 2020. The delayed and geographically heterogeneous diversification of 
 # flowering plant families. Nature Ecology and Evolution. 4: 1232-1238"
-
 #------------------------------------------#
 library(tidyverse)
 library(ape)

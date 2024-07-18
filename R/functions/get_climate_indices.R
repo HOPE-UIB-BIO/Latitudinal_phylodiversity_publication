@@ -1,8 +1,17 @@
-#' @title Prepare and/or calculate climate indices
-#' @description This function source the climate data, restructure and rename
-#' CHELSA variables, and estimate number of growing degree months per
-#' year (gdm = months > 0 degree C)
-#' @return A nested tibble with climate variables per dataset_id
+#---------------------------------------------------------------------------------#
+#
+# Latitudinal gradients in the phylogenetic assembly of angiosperms in Asia during 
+#                                the Holocene
+#
+#                             Bhatta et al. 2024
+#
+#---------------------------------------------------------------------------------#
+
+#----------------------------------------------------------#
+#
+# Function to prepare and/or calculate climate indices ----
+#
+#----------------------------------------------------------#
 
 get_climate_indices <- function(data_source, time_ref) {
   data_source %>%

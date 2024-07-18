@@ -1,6 +1,18 @@
-#' @title A function to select palaeoclimatic variables from CHELSA
-#' @description This function create a tibble of palaeoclimatic variables, file names, and urls
-#' @return A tibble to be used with the_get chelsa_download function
+#---------------------------------------------------------------------------------#
+#
+# Latitudinal gradients in the phylogenetic assembly of angiosperms in Asia during 
+#                                the Holocene
+#
+#                             Bhatta et al. 2024
+#
+#---------------------------------------------------------------------------------#
+
+#----------------------------------------------------------#
+#
+# Function to select palaeoclimatic variables from CHELSA ----
+#
+#----------------------------------------------------------#
+
 get_chelsa_trace21k_urls <- function(variables = c("bio", "tasmin", "tasmax", "pr"),
                                      name = "CHELSA_TraCE21k",
                                      bio_var = c(1:19),

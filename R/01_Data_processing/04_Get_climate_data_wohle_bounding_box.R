@@ -1,6 +1,13 @@
-#----------------------------------------------------------#
+#---------------------------------------------------------------------------------#
 #
-#         Latitudinal analysis of phylogenetic dispersion
+# Latitudinal gradients in the phylogenetic assembly of angiosperms in Asia during 
+#                                the Holocene
+#
+#                             Bhatta et al. 2024
+#
+#---------------------------------------------------------------------------------#
+
+#----------------------------------------------------------#
 #
 #           Extract Chelsa climate for the study area ----
 #                          

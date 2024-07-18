@@ -1,6 +1,17 @@
-#' @title A wrapper function to download palaeoclimatic variables from CHELSA 
-#' @description This is wrapper function that create a tibble with selected variables to be downloaded, download, extract relevant data and delete the downloaded .tif files. 
-#' @return Provide the selected climatic data for each location and a meta data table with the file and url links
+#---------------------------------------------------------------------------------#
+#
+# Latitudinal gradients in the phylogenetic assembly of angiosperms in Asia during 
+#                                the Holocene
+#
+#                             Bhatta et al. 2024
+#
+#---------------------------------------------------------------------------------#
+
+#----------------------------------------------------------#
+#
+# Wrapper function to download palaeoclimatic variables from CHELSA ----
+#
+#----------------------------------------------------------#
 
 get_climate_data <- function(variables_selected = c("bio", "tasmin"),
                              bio_var_selected = c(1, 6, 12, 15, 18, 19),

@@ -1,6 +1,17 @@
-#-----------------------------------------------#
-# Function for estimating phylogenetic diversity ----
-#-----------------------------------------------#
+#---------------------------------------------------------------------------------#
+#
+# Latitudinal gradients in the phylogenetic assembly of angiosperms in Asia during 
+#                                the Holocene
+#
+#                             Bhatta et al. 2024
+#
+#---------------------------------------------------------------------------------#
+
+#----------------------------------------------------------#
+#
+# Function to estimating phylogenetic dispersion ----
+#
+#----------------------------------------------------------#
 
 get_phylogenetic_diversity <- 
   function(counts,

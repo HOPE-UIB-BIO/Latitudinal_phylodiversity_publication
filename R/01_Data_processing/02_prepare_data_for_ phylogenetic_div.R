@@ -1,7 +1,13 @@
-#----------------------------------------------------------#
+#---------------------------------------------------------------------------------#
+#
+# Latitudinal gradients in the phylogenetic assembly of angiosperms in Asia during 
+#                                the Holocene
+#
+#                             Bhatta et al. 2024
+#
+#---------------------------------------------------------------------------------#
 
-# Latitudinal gradients in the phylogenetic assembly of angiosperms in Asia 
-# during the Holocene
+#----------------------------------------------------------#
 
 # Prepare data for estimation of MPD and MNTD ----
 #                          
@@ -246,4 +252,3 @@ write_rds(
     ),
   compress = "gz"
   )
-

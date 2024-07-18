@@ -1,9 +1,15 @@
+#---------------------------------------------------------------------------------#
+#
+# Latitudinal gradients in the phylogenetic assembly of angiosperms in Asia during 
+#                                the Holocene
+#
+#                             Bhatta et al. 2024
+#
+#---------------------------------------------------------------------------------#
+
 #----------------------------------------------------------#
-
-# Latitudinal gradients in the phylogenetic assembly of angiosperms in Asia 
-# during the Holocene
-
-# Temporal variation in latitudinal pattern of phylogenetic dispersion ----
+#
+# Temporal variation in latitudinal pattern of PD ----
 #                          
 #----------------------------------------------------------#
 
